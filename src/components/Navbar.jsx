@@ -5,9 +5,9 @@ import Badge, { BadgeProps } from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/IconButton';
 import PersonIcon from '@mui/icons-material/Person';
-
+import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
 const Container = styled.div`
-    height: 90px;
+    height: 60px;
     background-color: beige;
 `;
 const Wrapper = styled.div`
@@ -65,6 +65,7 @@ const Center = styled.div`
 
 const Logo = styled.h1`
     font-weight: bold;
+    color: #3D1002
 `;
 
 const Right = styled.div`
@@ -94,7 +95,7 @@ const Navbar= () =>{
                 </SearchContainer>
             </Left>
             <Center>
-                <Logo>OUR LITTLE COFFEE</Logo>
+                <Logo>OUR LITTLE COFFEE.CO                </Logo>
             </Center>
             <Right>
                 <MenuItem>
