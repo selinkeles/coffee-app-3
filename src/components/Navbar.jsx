@@ -6,15 +6,18 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/IconButton';
 import PersonIcon from '@mui/icons-material/Person';
 import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
+import img from "./logo.png";
+
 const Container = styled.div`
-    height: 60px;
+    height: 160px;
     background-color: beige;
 `;
 const Wrapper = styled.div`
     padding: 10px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
+    height: 100%;
 `;
 const Left = styled.div`
     flex : 1;
@@ -31,8 +34,9 @@ const SignIn = styled.div`
     font-size: 18px;
     cursor: pointer;
     font-weight: bold;
-    border: 2px solid gray;
-    border-radius: 19px;
+    border: 2px solid #d3d3d3;
+    border-radius: 13px;
+    background-color: #d3d3d3;
     display: flex;
     padding: 5px;
 `;
@@ -43,6 +47,7 @@ const SearchContainer = styled.div`
     margin-left: 25px;
     padding: 5px;
     width: 15vw;
+    border-radius: 19px;
 `;
 const LoginContainer = styled.div`
     display: flex;
@@ -57,16 +62,24 @@ const Input = styled.input`
 `;
 
 const Center = styled.div`
-    //flex : 1;
-    text-align: center:
-    //align-items: center;
+    flex : 1;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    //text-align: center:
+    align-items: center;
     justify-content: flex-center;
 `;
 
-const Logo = styled.h1`
+const Title = styled.h1`
     font-weight: bold;
     color: #3D1002
 `;
+
+const Logo = styled.img`
+height: 65%;
+cursor: pointer;
+`
 
 const Right = styled.div`
     flex : 1;
@@ -95,7 +108,8 @@ const Navbar= () =>{
                 </SearchContainer>
             </Left>
             <Center>
-                <Logo>OUR LITTLE COFFEE.CO                </Logo>
+                <Title>OUR LITTLE COFFEE.CO              </Title>
+                <Logo src={img}/>
             </Center>
             <Right>
                 <MenuItem>

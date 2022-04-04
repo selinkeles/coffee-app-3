@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useState } from "react";
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { sliderItems } from "../data";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
+
 
 const Container = styled.div`
     width: 100%;
@@ -33,7 +32,7 @@ const Arrow = styled.div`
   z-index: 2;
 `;
 const Wrapper = styled.div`
-    height: 50vh;
+    height: 100%; //changed
     display: flex;
     transition: all 1.5s ease;
     transform: translateX(${(props) => props.slideIndex * -100}vw);
@@ -49,16 +48,20 @@ const Slide = styled.div`
 
 const ImgContainer = styled.div`
     height: 100%;
+    width: 100%; //changed
     flex: 1;
+    //object-fit: cover;
 `;
 
 const Image = styled.img`
+    flex:1; //changed
     height: 100%:
+    //max-width: 100%;
+    //object-fit: cover;
 `;
 const InfoContainer = styled.div`
     flex: 1;
     padding: 50px;
-    //background-color: black;
 `;
 
 const Title = styled.h1`
