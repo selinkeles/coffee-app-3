@@ -52,6 +52,34 @@ export const sliderItems = [
     },
   ];
 
+  export const categoriesBar = [
+    {
+      id: 1,
+      img: img4,
+      title: "Coffee",
+    },
+    {
+      id: 2,
+      img: img5,
+      title: "Equipments",
+    },
+    {
+      id: 3,
+      img: img6,
+      title: "Snacks",
+    },
+    {
+      id: 4,
+      img: img6,
+      title: "Thermos",
+    },
+    {
+      id: 5,
+      img: img6,
+      title: "Cups",
+    },
+  ];
+
   export const filterCoffy = [
     {
         id: 1,

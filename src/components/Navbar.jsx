@@ -10,7 +10,7 @@ import img from "./logo.png";
 
 const Container = styled.div`
     height: 160px;
-    background-color: beige;
+    background-color: #FAF0E6;
 `;
 const Wrapper = styled.div`
     padding: 10px 20px;
@@ -46,7 +46,7 @@ const SearchContainer = styled.div`
     align-items: center;
     margin-left: 25px;
     padding: 5px;
-    width: 15vw;
+    width: 20vw;
     border-radius: 19px;
 `;
 const LoginContainer = styled.div`
@@ -57,8 +57,8 @@ const LoginContainer = styled.div`
 
 const Input = styled.input`
     border: none;
-    width: 15vw;
-    background-color: beige;
+    width: 20vw;
+    background-color: #FAF0E6;
 `;
 
 const Center = styled.div`

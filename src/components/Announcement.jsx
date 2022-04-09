@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const Announcement = () => {
   return <Container>
-       <LocalShippingIcon color="white" style={{fontsize:22}} />
+       <LocalShippingIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
         Super Deal! Free Shipping on Orders Over $40
          </Container>;
 };
