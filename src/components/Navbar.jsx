@@ -9,7 +9,7 @@ import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
 import img from "./logo.png";
 
 const Container = styled.div`
-    height: 85px;
+    height: 90px;
     background-color: #FAF0E6;
 `;
 const Wrapper = styled.div`
@@ -65,9 +65,9 @@ const Input = styled.input`
 const Center = styled.div`
     flex : 1;
     display: flex;
-    height: 100%;
+    height: 80%;
     flex-direction: column;
-    //text-align: center:
+    text-align: center:
     align-items: center;
     justify-content: flex-center;
 `;
@@ -82,7 +82,6 @@ height: 60px;
 cursor: pointer;
 margin-right: 250px;
 `
-
 const Right = styled.div`
     flex : 1;
     display: flex;
@@ -108,6 +107,7 @@ const Navbar= () =>{
                     <Input/>
                     <SearchIcon style={{color:"gray", fontSize:22}}/> 
                 </SearchContainer>
+                
             </Left>
             <Center>
                 <Title> OUR LITTLE COFFEE.CO              </Title>

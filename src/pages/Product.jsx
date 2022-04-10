@@ -66,7 +66,6 @@ const FilterColor = styled.div`
 `;
 
 
-
 const AddContainer = styled.div`
   width: 50%;
   display: flex;
