@@ -2,7 +2,7 @@ import styled from "styled-components";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 const Container = styled.div`
   height: 30px;
-  background-color: teal;
+  background-color: #3D1002;
   color: white;
   display: flex;
   align-items: center;
