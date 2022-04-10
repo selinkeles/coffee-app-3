@@ -9,7 +9,7 @@ import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
 import img from "./logo.png";
 
 const Container = styled.div`
-    height: 85px;
+    height: 98px;
     background-color: #FAF0E6;
 `;
 const Wrapper = styled.div`
