@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import {filterCoffy} from "../data"
 
 const Container = styled.div`
-    padding: 25px;
+    padding: 15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
