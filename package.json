@@ -15,7 +15,10 @@
     "@mui/material": "^5.5.3",
     "install": "^0.13.0",
     "npm": "^8.5.5",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.0",
+    "react-stripe-checkout": "^2.6.3",
     "styled-components": "^5.3.5"
   },
   "browserslist": {
@@ -31,6 +34,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.17.9",
     "@types/styled-components": "^5.1.25"
   }
 }

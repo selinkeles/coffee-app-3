@@ -39,16 +39,19 @@ export const sliderItems = [
       id: 1,
       img: img4,
       title: "COFFEE",
+      cat: "coffee"
     },
     {
       id: 2,
       img: img5,
       title: "EQUIPMENTS",
+      cat:"equipment"
     },
     {
       id: 3,
       img: img6,
       title: "SNACKS",
+      cat:"snacks"
     },
   ];
 

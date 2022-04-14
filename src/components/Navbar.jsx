@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import PersonIcon from '@mui/icons-material/Person';
 import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
 import img from "./logo.png";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     height: 98px;
@@ -113,19 +114,29 @@ const Navbar= () =>{
                 <Title> OUR LITTLE COFFEE.CO              </Title>
             </Center>
             <Right>
+            <Link to="/">
             <Logo src={img}/>
+            </Link>
                 <MenuItem>
+                <Link to="/login">
                     <LoginContainer>
                         Login
                         <PersonIcon style={{color:"gray", fontsize:22}}/>
                     </LoginContainer>
+                    </Link>
                 </MenuItem>
-                <MenuItem><SignIn>Join Us</SignIn></MenuItem>
+                <MenuItem>
+                <Link to="/signup">
+                    <SignIn>Join Us</SignIn>
+                </Link>
+                </MenuItem>
+                <Link to="/cart">
                 <MenuItem>
                 <Badge badgeContent={4} color="primary">
                     <ShoppingCartIcon color="action" style={{fontsize:22}} />
                 </Badge>
                 </MenuItem>
+                </Link>
             </Right>
         </Wrapper>
     </Container>
