@@ -121,7 +121,7 @@ const Navbar= () =>{
             <Logo src={img}/>
             </Link>
                 <MenuItem>
-                <Link to="/login">
+                <Link to="/login" style={{ color: 'inherit', textDecoration: 'inherit'}}>
                     <LoginContainer>
                         Login
                         <PersonIcon style={{color:"gray", fontsize:22}}/>
@@ -129,7 +129,7 @@ const Navbar= () =>{
                     </Link>
                 </MenuItem>
                 <MenuItem>
-                <Link to="/signup">
+                <Link to="/signup" style={{ color: 'inherit', textDecoration: 'inherit'}}>
                     <SignIn>Join Us</SignIn>
                 </Link>
                 </MenuItem>

@@ -59,27 +59,22 @@ export const sliderItems = [
   export const categoriesBar = [
     {
       id: 1,
-      img: img4,
       title: "Coffee",
     },
     {
       id: 2,
-      img: img5,
       title: "Equipments",
     },
     {
       id: 3,
-      img: img6,
       title: "Snacks",
     },
     {
       id: 4,
-      img: img6,
       title: "Thermos",
     },
     {
       id: 5,
-      img: img6,
       title: "Cups",
     },
   ];
@@ -127,6 +122,33 @@ export const sliderItems = [
       id: 4,
       cName: img6,
       title: "Turkish Coffee",
+    },
+  ];
+
+  export const equipmentsDropdown = [
+    {
+      id: 1,
+      title: "Espresso Machines",
+    },
+    {
+      id: 2,
+      title: "Filter Coffee Machines",
+    },
+    {
+      id: 3,
+      title: "Filter",
+    },
+    {
+      id: 4,
+      title: "Grinders",
+    },
+    {
+      id: 5,
+      title: "French Press"
+    },
+    {
+      id: 6,
+      title: "Moka Pot"
     },
   ];
 
