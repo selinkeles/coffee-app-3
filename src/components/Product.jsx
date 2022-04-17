@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { addProduct } from "../redux/cartRedux";
+import {useDispatch} from "react-redux";
 
 
 const Info = styled.div`
@@ -70,12 +72,16 @@ const Icon = styled.div`
 `
 
 const Product = ({item}) => {
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    dispatch(addProduct({product,quantity}));
+  }
   return (
     <Container>
         <Circle/>
         <Image src={item.img}/>
         <Info>
-            <Icon>
+            <Icon onClick = {handleClick}>
                 <ShoppingCartIcon/>
             </Icon>
             <Icon>

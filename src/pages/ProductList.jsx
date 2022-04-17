@@ -7,6 +7,8 @@ import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 import Categorybar from '../components/Categorybar'
 
+
+
 const Container = styled.div`
 
 `

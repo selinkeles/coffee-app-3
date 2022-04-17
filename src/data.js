@@ -11,6 +11,7 @@ import img10 from "./star4.jpg"
 import img11 from "./star5.jpg"
 import img12 from "./star6.jpg"
 
+
 export const sliderItems = [
     {
       id: 1,
@@ -105,3 +106,27 @@ export const sliderItems = [
         img: img11,
     },
   ];
+
+  export const coffeeDropdown = [
+    {
+      id: 1,
+      cName: img4,
+      title: "Filter Coffee",
+    },
+    {
+      id: 2,
+      cName: img5,
+      title: "Expresso",
+    },
+    {
+      id: 3,
+      cName: img6,
+      title: "Capsule Coffee",
+    },
+    {
+      id: 4,
+      cName: img6,
+      title: "Turkish Coffee",
+    },
+  ];
+

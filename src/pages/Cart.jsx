@@ -7,6 +7,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 const Container = styled.div``;
 
+
 const Wrapper = styled.div`
   padding: 20px;
 `;
@@ -228,3 +229,4 @@ const Cart = () => {
 };
 
 export default Cart;
+

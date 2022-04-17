@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 
 const Info = styled.div`
+  
   width: 100%;
   height: 100%;
   display: flex;
@@ -21,7 +22,10 @@ const Info = styled.div`
 const Container = styled.div`
     margin-left: 40px;
     height: 100%;
+    align-items: center;
+    justify-content: center;
     width: 8vw;
+
     //background-color: black;
 `;
 
@@ -29,7 +33,7 @@ const Container = styled.div`
 
 const Title = styled.text`
     color:#3D1002;
-    margin-bottom: 20px;
+    padding: 8px;
     font-weight: 600;
     fontsize: 22;
     width: 80%;

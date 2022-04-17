@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import CategorybarItems from "./CategorybarItems";
 import { categoriesBar } from "../data";
+import Dropdown from './Dropdown';
 
 const Container = styled.div`
-    height: 60px;
+    height: 50px;
     background-color: #FBF7F3;
-
 `;
 
 const Wrapper = styled.div`
@@ -14,7 +14,8 @@ const Wrapper = styled.div`
     display: flex;
     //align-items: center;
     //justify-content: space-between;
-    height: 100%;
+    //height: 100%;
+    //width: 100%;
 `;
 
 const Categorybar= () =>{
@@ -30,4 +31,3 @@ const Categorybar= () =>{
   };
   
   export default Categorybar;
-  

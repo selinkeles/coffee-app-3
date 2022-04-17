@@ -6,6 +6,10 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { addProduct } from "../redux/cartRedux";
+import {useDispatch} from "react-redux";
+
+
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -102,6 +106,14 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+
+  const dispatch = useDispatch();
+  const handleClick = () => {
+
+    dispatch(addProduct({product,quantity}));
+  }
+
+
   return (
     <Container>
       <Announcement />
@@ -133,7 +145,7 @@ const Product = () => {
               <Amount>1</Amount>
               <Add />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick = {handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

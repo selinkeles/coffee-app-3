@@ -8,6 +8,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
 import img from "./logo.png";
 import { Link } from "react-router-dom";
+import {useSelector} from "react-redux";
+
 
 const Container = styled.div`
     height: 98px;
@@ -99,6 +101,7 @@ const MenuItem = styled.div`
 `;
 
 const Navbar= () =>{
+    const quantity = useSelector(state=>state.cart.quantity)
   return (
     <Container>
         <Wrapper>
@@ -132,7 +135,7 @@ const Navbar= () =>{
                 </MenuItem>
                 <Link to="/cart">
                 <MenuItem>
-                <Badge badgeContent={4} color="primary">
+                <Badge badgeContent={quantity} color="primary">
                     <ShoppingCartIcon color="action" style={{fontsize:22}} />
                 </Badge>
                 </MenuItem>
