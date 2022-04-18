@@ -13,8 +13,10 @@ const Container = styled.div`
 const Wrapper = styled.div`
     padding: 10px 20px;
     display: flex;
+    margin-right: 20px;
+    //background-color: black;
     //align-items: center;
-    //justify-content: space-between;
+    justify-content: space-between;
     //height: 100%;
     //width: 100%;
 `;
