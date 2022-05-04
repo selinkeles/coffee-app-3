@@ -6,7 +6,7 @@ import Producst from '../components/Products'
 import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 import Categorybar from '../components/Categorybar'
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 
 
@@ -40,13 +40,15 @@ const Option = styled.option`
 const ProductList = () => {
     const location = useLocation();
     const cat = location.pathname.split("/")[2];
+    const subCategories = [];
+    const [categories, setCategories] = useState([]);
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState("newest");
 
     const handleFilters = (e) => {
         const value = e.target.value;
         setFilters({
-            ...filters,
+            //...filters,
             [e.target.name]: value,
         });
     };
@@ -57,12 +59,12 @@ const ProductList = () => {
             <Announcement/>
             <Navbar/>
             <Categorybar/>
-            <Title>Coffee</Title>
+            <Title>{cat}</Title>
             <FilterContainer>
                 <Filter>
                     <FilterText>Filter Products:</FilterText>
                     <Select name="subCategory" onChange={handleFilters}>
-                        <Option disabled>
+                        <Option selected>
                             Coffee
                         </Option>
                         <Option>Filter Coffee</Option>
@@ -80,7 +82,7 @@ const ProductList = () => {
                     </Select>
                 </Filter>
             </FilterContainer>
-            <Producst category={cat} filters={filters} sort={sort}/>
+            <Producst category={cat} subCategory={filters} sort={sort}/>
             <Newsletter/>
             <Footer/>
         </Container>

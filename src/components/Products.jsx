@@ -15,7 +15,7 @@ const Container = styled.div`
 `
 
 
-const Products = ({category,filters,sort}) => {
+const Products = ({category,subCategory,sort}) => {
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -23,7 +23,7 @@ const Products = ({category,filters,sort}) => {
   useEffect(() => {
     const getProducts = async ()=>{
       try{
-        const res = await axios.get(`http://localhost:8080/getProductsByCategory/${category}`);
+        const res = await axios.get(`http://localhost:8090/product/getProductsByCategory/${category}`);
         setProducts(res.data);
       }catch(err){}
     }
@@ -33,16 +33,16 @@ const Products = ({category,filters,sort}) => {
   useEffect(()=> {
     const getFilteredProducts = async ()=>{
       try{
-        const res = await axios.get(`http://localhost:8080/getProductsBySubCategory/${filters}`);
+        const res = await axios.get(`http://localhost:8090/product/getProductsBySubCategory/{${filters}}`);
         setFilteredProducts(res.data);
       }catch(err){}
     }
     getFilteredProducts();
-  },[category,filters])
+  },[category,subCategory])
 
   return (
     <Container>
-        {filteredProducts.map(item=>(
+        {products.map(item=>(
             <Product item={item} key={item.id}/>
         ))}
     </Container>

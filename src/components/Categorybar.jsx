@@ -28,16 +28,16 @@ const Categorybar= () =>{
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const setCategories = async ()=>{
+    const getCategories = async ()=>{
       try{
-        const res = await axios.get('http://localhost:8080/category/getAllCategories');
+        const res = await axios.get('http://localhost:8090/category/getAllCategories');
         setCategories(res.data);
       }catch(err){
         console.log('cannot see');
       }
     }
-    setCategories();
-  });
+    getCategories();
+  },[]);
 
     return (
       <Container>
