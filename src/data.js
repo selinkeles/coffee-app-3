@@ -60,23 +60,18 @@ export const sliderItems = [
     {
       id: 1,
       title: "Coffee",
+      category: 'coffee',
     },
     {
       id: 2,
       title: "Equipments",
+      category: 'equipments',
     },
     {
       id: 3,
       title: "Snacks",
-    },
-    {
-      id: 4,
-      title: "Thermos",
-    },
-    {
-      id: 5,
-      title: "Cups",
-    },
+      category: 'snacks',
+    }
   ];
 
   export const filterCoffy = [

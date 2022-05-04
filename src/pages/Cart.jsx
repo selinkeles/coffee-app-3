@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import Categorybar from "../components/Categorybar";
 const Container = styled.div``;
 
 
@@ -145,6 +146,7 @@ const Cart = () => {
     <Container>
       <Announcement />
       <Navbar />
+      <Categorybar/>
       <Wrapper>
         <Title>YOUR BAG <ShoppingBasketIcon color="white" style={{fontsize:22, marginRight:"10px"}} /></Title>
         <Top>

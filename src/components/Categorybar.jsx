@@ -4,6 +4,8 @@ import CategorybarItems from "./CategorybarItems";
 import { categoriesBar } from "../data";
 import Dropdown from './Dropdown';
 import { Link } from 'react-router-dom';
+import { useState , useEffect } from 'react';
+import axios from 'axios';
 
 const Container = styled.div`
     height: 50px;
@@ -16,21 +18,34 @@ const Wrapper = styled.div`
     margin-right: 20px;
     //background-color: black;
     //align-items: center;
-    justify-content: space-between;
+    //justify-content: space-between;
     //height: 100%;
     //width: 100%;
 `;
 
 const Categorybar= () =>{
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const setCategories = async ()=>{
+      try{
+        const res = await axios.get('http://localhost:8080/category/getAllCategories');
+        setCategories(res.data);
+      }catch(err){
+        console.log('cannot see');
+      }
+    }
+    setCategories();
+  });
+
     return (
       <Container>
-        <Link to = {'/products/${item.cat}'} style={{textDecoration:"none"}}>
             <Wrapper>
-              {categoriesBar.map((item) => (
+              {categories.map((item) => (
               <CategorybarItems item={item} key={item.id} />
               ))}
             </Wrapper>
-        </Link>
       </Container>
     );
   };

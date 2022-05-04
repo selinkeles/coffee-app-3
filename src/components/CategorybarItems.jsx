@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 
 const Info = styled.div`
@@ -42,9 +43,11 @@ const Title = styled.text`
 const CategorybarItems = ({ item }) => {
   return (
     <Container>
+      <Link to = {`/products/${item.categoryName}`} style={{textDecoration:"none"}}>
       <Info>
-        <Title>{item.title}</Title>
+        <Title>{item.categoryName}</Title>
       </Info>
+      </Link>
     </Container>
   );
 };
