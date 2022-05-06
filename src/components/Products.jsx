@@ -19,6 +19,7 @@ const Products = ({category,subCategory,sort}) => {
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [sortedProducts, setSortedProducts] = useState([]);
   
   useEffect(() => {
     const getProducts = async ()=>{
@@ -32,17 +33,44 @@ const Products = ({category,subCategory,sort}) => {
 
   useEffect(()=> {
     const getFilteredProducts = async ()=>{
-      try{
-        const res = await axios.get(`http://localhost:8090/product/getProductsBySubCategory/{${filters}}`);
-        setFilteredProducts(res.data);
-      }catch(err){}
+
+      if(subCategory === "noFilter") {
+        setFilteredProducts(products);
+      }
+      else {
+        try{
+          const res = await axios.get(`http://localhost:8090/product/getProductsBySubCategory/${subCategory}`);
+          setFilteredProducts(res.data);
+        }catch(err){}
+      }
     }
     getFilteredProducts();
-  },[category,subCategory])
+  },[subCategory,products,sort])
+
+/*
+  useEffect(() => {
+    const getSortedProducts = async () => {
+      if(sort === "newest") {
+        setSortedProducts(filteredProducts);
+      }
+      else {
+        console.log(sort);
+        console.log(filteredProducts);
+        try{
+          console.log(filteredProducts);
+          const res = await axios.get(`http://localhost:8090/product/sortProducts/${filteredProducts}/${sort}`);
+          
+          setSortedProducts(res.data);
+        }catch(err){}
+      }
+    }
+    getSortedProducts();
+  },[sort,filteredProducts])*/
+
 
   return (
     <Container>
-        {products.map(item=>(
+        {filteredProducts.map(item=>(
             <Product item={item} key={item.id}/>
         ))}
     </Container>

@@ -73,9 +73,11 @@ const Icon = styled.div`
 
 const Product = ({item}) => {
   const dispatch = useDispatch();
+  const quantity = 1;
   const handleClick = () => {
-    dispatch(addProduct({product,quantity}));
-  }
+    
+    dispatch(addProduct({...item ,quantity}));
+  };
   return (
     <Container>
         <Circle/>
@@ -85,7 +87,7 @@ const Product = ({item}) => {
                 <ShoppingCartIcon/>
             </Icon>
             <Icon>
-                <SearchIcon/>
+                <SearchIcon onClick = {handleClick}/>
             </Icon>
             <Icon>
                 <FavoriteIcon/>

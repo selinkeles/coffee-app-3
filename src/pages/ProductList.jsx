@@ -8,6 +8,7 @@ import Footer from '../components/Footer'
 import Categorybar from '../components/Categorybar'
 import {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
+const mongoose = require('mongoose');
 
 
 
@@ -40,10 +41,9 @@ const Option = styled.option`
 const ProductList = () => {
     const location = useLocation();
     const cat = location.pathname.split("/")[2];
-    const subCategories = [];
     const [categories, setCategories] = useState([]);
-    const [filters, setFilters] = useState({});
-    const [sort, setSort] = useState("newest");
+    const [filters, setFilters] = useState("noFilter");
+    const [sort, setSort] = useState("newest");    
 
     const handleFilters = (e) => {
         const value = e.target.value;
@@ -53,7 +53,19 @@ const ProductList = () => {
         });
     };
 
-    console.log(filters)
+    useEffect(() => {
+        const getCategories = async ()=>{
+          try{
+            const res = await axios.get('http://localhost:8090/category/getAllCategories');
+            setCategories(res.data);
+          }catch(err){}
+        }
+        getCategories();
+    },[]);
+    
+    const subCategories = [['Coffee','Filter Coffee','Espresso','Nespresso'],['Equipments','Flask','Coffee Press','Cup']]
+
+    console.log(sort)
     return (
         <Container>
             <Announcement/>
@@ -63,14 +75,11 @@ const ProductList = () => {
             <FilterContainer>
                 <Filter>
                     <FilterText>Filter Products:</FilterText>
-                    <Select name="subCategory" onChange={handleFilters}>
-                        <Option selected>
-                            Coffee
-                        </Option>
-                        <Option>Filter Coffee</Option>
-                        <Option>Expresso</Option>
-                        <Option>Capsule Coffee</Option>
-                        <Option>Turkish Coffee</Option>
+                    <Select onChange={(e) => setFilters(e.target.value)}>
+                        <Option value="noFilter">{cat}</Option>
+                        <Option value={(subCategories[0][0] === cat) ? "Filter Coffee" : "Flask"}>{(subCategories[0][0] === cat) ? "Filter Coffee" : "Flask"}</Option>
+                        <Option value={(subCategories[0][0] === cat) ? "Espresso" : "Coffee Press"}>{(subCategories[0][0] === cat) ? "Espresso" : "Coffee Press"}</Option>
+                        <Option value={(subCategories[0][0] === cat) ? "Nespresso" : "Cup"}>{(subCategories[0][0] === cat) ? "Nespresso" : "Cup"}</Option>
                     </Select>
                 </Filter>
                 <Filter>

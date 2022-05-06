@@ -18,3 +18,13 @@ mongoose.connect("mongodb://localhost:27017/coffeeShop",
     if(!err) console.log('db connected');
     else console.log('db error');
 })
+/*
+let Category = mongoose.model(Category);
+
+Category.find({categoryName: "Coffee"}, (error,data) => {
+    if(error) {
+        console.log(error)
+    } else {
+        console.log(data)
+    }
+})*/

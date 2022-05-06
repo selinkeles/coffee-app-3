@@ -7,6 +7,8 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Categorybar from "../components/Categorybar";
 const Container = styled.div``;
+import {useSelector} from "react-redux";
+import { Link } from "react-router-dom";
 
 
 const Wrapper = styled.div`
@@ -142,6 +144,7 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector(state=>state.cart)
   return (
     <Container>
       <Announcement />
@@ -150,64 +153,48 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG <ShoppingBasketIcon color="white" style={{fontsize:22, marginRight:"10px"}} /></Title>
         <Top>
+          <Link to="/">
           <TopButton>CONTINUE SHOPPING</TopButton>
+          </Link>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
+            <Link to="/orders" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+            <TopText>Your Orders</TopText>
+            </Link>
             <TopText>Your Wishlist (0)</TopText>
           </TopTexts>
         </Top>
         <Bottom>
           <Info>
-            <Product>
+            {cart.products.map(product=>(<Product>
               <ProductDetail>
-                <Image src="https://st3.myideasoft.com/idea/bs/42/myassets/products/170/moliendo-brasil-bossa-nova-250g-yoresel-kahve-copy.jpg?revision=1617874798" />
+                <Image src={product.image} />
                 <Details>
                   <ProductName>
-                    <b>Product:</b> Moliendo Brasil Bossa Nova Yöresel Kahve 250 gr.
+                    <b>Product:</b> {product.name}
                   </ProductName>
                   <ProductId>
-                    <b>ID:</b> 93813718293
+                    <b>ID:</b> {product.id}
                   </ProductId>
                 </Details>
               </ProductDetail>
               <PriceDetail>
                 <ProductAmountContainer>
                   <Add />
-                  <ProductAmount>2</ProductAmount>
+                  <ProductAmount>{product.quantity}</ProductAmount>
                   <Remove />
                 </ProductAmountContainer>
-                <ProductPrice>$ 30 <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
+                <ProductPrice>$ {product.price * 1 /*product.quantity*/} <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
                 </ProductPrice>
               </PriceDetail>
             </Product>
+            ))}
             <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://st3.myideasoft.com/idea/bs/42/myassets/products/177/moliendo-colombia-supremo-huila-yoresel-kahve-250-gr.jpg?revision=1621529733" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> Moliendo Colombia Supremo Huila Yöresel Kahve 250 gr.
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20<LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} /></ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -219,7 +206,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>
