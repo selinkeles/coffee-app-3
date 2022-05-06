@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { addProduct } from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
+import { Link } from "react-router-dom";
 
 
 const Info = styled.div`
@@ -87,7 +88,9 @@ const Product = ({item}) => {
                 <ShoppingCartIcon/>
             </Icon>
             <Icon>
-                <SearchIcon onClick = {handleClick}/>
+              <Link to={`/product/${item.id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                <SearchIcon/>
+              </Link>  
             </Icon>
             <Icon>
                 <FavoriteIcon/>

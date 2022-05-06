@@ -8,6 +8,9 @@ import Newsletter from "../components/Newsletter";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { addProduct } from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
+import {useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from 'axios';
 
 
 const Container = styled.div``;
@@ -107,6 +110,36 @@ const Button = styled.button`
 
 const Product = () => {
 
+  const location = useLocation();
+  const id = location.pathname.split("/")[2] ;
+  const [product, setProduct] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  
+
+  useEffect(() => {
+    const getProduct = async () => {
+      console.log(id)
+      try {
+        const res = await axios.get(`http://localhost:8090/product/getProductById/${id}`);
+        setProduct(res.data);
+        
+      } catch(err) {
+        console.log("cannot get")
+      }
+    }
+    getProduct();
+  }, [id]);
+
+  
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
   const dispatch = useDispatch();
   const handleClick = () => {
 
@@ -121,14 +154,14 @@ const Product = () => {
       <Categorybar />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://st.myideasoft.com/idea/bs/42/myassets/products/022/10825694249010.jpg?revision=1642602676" />
+          <Image src={product.image}  />
         </ImgContainer>
         <InfoContainer>
-          <Title>Philips  Grind & Brew HD7768/80</Title>
+          <Title>{product.name}</Title>
           <Desc>
-          With the Philips Grind & Brew HD7768/70, each morning there's a pot of fresh coffee waiting for you so you can start your day. Set the timer the night before so the coffee machine gets started for you the next morning. Fill the bean hopper with your favorite coffee beans and you can adjust the grind size yourself. This allows you to easily determine the strength and flavor of the coffee.
+          {product.description}
           </Desc>
-          <Price>$ 520</Price>
+          <Price>$ {product.price}</Price>
           <FilterContainer>
             <Filter>
             <FilterTitle>Rating: </FilterTitle>
@@ -141,9 +174,9 @@ const Product = () => {
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantity("dec")}/>
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity("inc")}/>
             </AmountContainer>
             <Button onClick = {handleClick}>ADD TO CART</Button>
           </AddContainer>
