@@ -11,7 +11,7 @@ import {useDispatch} from "react-redux";
 import {useLocation} from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
-
+import BlockIcon from '@mui/icons-material/Block';
 
 const Container = styled.div``;
 
@@ -73,6 +73,8 @@ const FilterColor = styled.div`
 `;
 
 
+
+
 const AddContainer = styled.div`
   width: 50%;
   display: flex;
@@ -106,7 +108,24 @@ const Button = styled.button`
   &:hover{
       background-color: beige;
   }
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
 `;
+
+const success = styled.h1`
+    font-size: 20px;
+    font-weight: 200;
+    color: #20a020;
+`;    
+
+const error = styled.h1`
+    font-size: 20px;
+    font-weight: 200;
+
+    color:  #a02020
+`;    
 
 const Product = () => {
 
@@ -114,7 +133,8 @@ const Product = () => {
   const id = location.pathname.split("/")[2] ;
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  
+  const [Errors, setErrors] = useState({});
+
 
   useEffect(() => {
     const getProduct = async () => {
@@ -142,8 +162,11 @@ const Product = () => {
 
   const dispatch = useDispatch();
   const handleClick = () => {
-
+    if (product.stocks > 0) {
     dispatch(addProduct({...product, quantity}));
+  } else {
+    setErrors("error");
+  }
   };
 
 
@@ -162,26 +185,35 @@ const Product = () => {
           {product.description}
           </Desc>
           <Price>$ {product.price}</Price>
-          <FilterContainer>
-            <Filter>
-            <FilterTitle>Rating: </FilterTitle>
-            <StarBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
-            <StarBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
-            <StarBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
-            <StarBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
-            <StarBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
-            </Filter>
-          </FilterContainer>
-          <FilterTitle> Stock: {product.stocks}</FilterTitle>
-
+          <Desc>
+          Rating: {product.rating} 
+          </Desc>
+          <FilterTitle>           
+                        {product.stocks > 0 ? (
+                          <success>In Stock: {product.stocks}</success>
+                        ) : (
+                          <error> Out of Stock</error>
+                        )}
+                      
+          </FilterTitle>
           <AddContainer>
             <AmountContainer>
               <Remove onClick={() => handleQuantity("dec")}/>
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity("inc")}/>
             </AmountContainer>
-            <Button onClick = {handleClick}>ADD TO CART</Button>
-          </AddContainer>
+            <Button  onClick = {handleClick} 
+            >ADD TO CART</Button> 
+          <InfoContainer>
+
+                        {Errors ==="error"  ? (
+                          <error> currently not available<BlockIcon color="white" style={{fontsize:22, marginRight:"10px"}} /> </error>
+                          ) : (
+                          <error> </error>
+                        )}
+          </InfoContainer>
+
+        </AddContainer>
         </InfoContainer>
       </Wrapper>
       <Newsletter />

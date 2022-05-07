@@ -2,7 +2,8 @@ import styled from "styled-components";
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
-
+import { login } from "../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -40,10 +41,14 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: #DC7633;
+  background-color: teal;
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
 `;
 
 const Sentence = styled.div`
@@ -53,13 +58,25 @@ const Sentence = styled.div`
   cursor: pointer;
   //background-color: black;
 `;
+const Error = styled.span`
+  color: red;
+`;
 
 const Login = () => {
   const initialValues = { username: "", password: ""};
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    login(dispatch, { username, password });
+  };
+  
   const handleChange = (e) => {
       const {name,value} = e.target;
       setFormValues({...formValues, [name]: value});
@@ -98,12 +115,13 @@ const Login = () => {
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
-        <Form onSubmit={handleSubmit}>
-          <Input type="text" placeholder="username" name="username" value={formValues.username} onChange={handleChange}/>
-          <p>{formErrors.username}</p>
-          <Input type="text" placeholder="password" name="password" value={formValues.password} onChange={handleChange}/>
-          <p>{formErrors.password}</p>
-          <Button>LOGIN</Button>
+        <Form>
+          <Input type="text" placeholder="username" onChange={(e) => setUsername(e.target.value)}/>
+          <Input type="text" placeholder="password"   onChange={(e) => setPassword(e.target.value)}/>
+          <Button onClick={handleClick} disabled={isFetching}>
+          LOGIN
+          </Button>
+          {error && <Error>Something went wrong...</Error>}
           <Sentence>FORGOT PASSWORD?</Sentence>
           <Link to='/signup' style={{ color: 'inherit', textDecoration: 'inherit'}}>
             <Sentence>CREATE NEW ACCOUNT</Sentence>

@@ -5,6 +5,7 @@ import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
+import { useSelector } from "react-redux";
 
 import {
   BrowserRouter as Router,
@@ -15,7 +16,7 @@ import {
 
 
 const App = () => {
-  const user = false;
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Router>
       <Switch>
