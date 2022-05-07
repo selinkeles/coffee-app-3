@@ -160,6 +160,8 @@ const Product = () => {
     }
   };
 
+  const [user, setUser] = useState("");
+
   const dispatch = useDispatch();
   const handleClick = () => {
     if (product.stocks > 0) {
