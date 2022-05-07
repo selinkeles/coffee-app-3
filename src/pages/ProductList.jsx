@@ -13,7 +13,16 @@ import SearchIcon from '@mui/icons-material/Search';
 const mongoose = require('mongoose');
 
 
-
+const SearchContainer = styled.div`
+    border: 0.5px solid lightgray;
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+    padding: 5px;
+    width: 20vw;
+    border-radius: 19px;
+    margin-right: 100px;
+`;
 const Container = styled.div`
 
 `
@@ -47,8 +56,8 @@ const ProductList = () => {
     const [categories, setCategories] = useState([]);
     const [filters, setFilters] = useState("noFilter");
     const [sort, setSort] = useState("newest");    
+    const [query, setQuery] = useState("");
 
-    
     const handleFilters = (e) => {
         const value = e.target.value;
         setFilters({
@@ -66,7 +75,11 @@ const ProductList = () => {
         }
         getCategories();
     },[]);
-    
+
+  
+
+
+  
     const subCategories = [['Coffee','Filter Coffee','Espresso','Nespresso'],['Equipments','Flask','Coffee Press','Cup']]
 
     console.log(sort)
@@ -87,6 +100,14 @@ const ProductList = () => {
                     </Select>
                 </Filter>     
                 <Filter>
+                <SearchContainer>
+                <input
+            className="search"
+            placeholder="Search Products..."
+            onChange={(e) => setQuery(e.target.value)} />
+            <SearchIcon style={{color:"gray", fontSize:22}} /> 
+            </SearchContainer>
+
                     <FilterText>Sort Products:</FilterText>
                     <Select onChange={(e) => setSort(e.target.value)}>
                             <Option value="newest">Newest</Option>
@@ -95,7 +116,7 @@ const ProductList = () => {
                     </Select>
                 </Filter>
             </FilterContainer>
-            <Producst category={cat} subCategory={filters} sort={sort}/>
+            <Producst category={cat} subCategory={filters} sort={sort} query={query}/>
             <Newsletter/>
             <Footer/>
         </Container>

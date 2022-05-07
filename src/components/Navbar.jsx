@@ -112,8 +112,7 @@ const Navbar= () =>{
                 <SearchContainer>
                     <Input onChange={(e) => setSearch(e.target.value)}/>
                     <SearchIcon style={{color:"gray", fontSize:22}} /> 
-                </SearchContainer>
-                
+                </SearchContainer>               
             </Left>
             <Center>
                 <Title> OUR LITTLE COFFEE.CO              </Title>
