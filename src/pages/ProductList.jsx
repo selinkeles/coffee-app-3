@@ -8,6 +8,8 @@ import Footer from '../components/Footer'
 import Categorybar from '../components/Categorybar'
 import {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
+
 const mongoose = require('mongoose');
 
 
@@ -38,6 +40,7 @@ const Select = styled.select`
 const Option = styled.option`
 `
 
+
 const ProductList = () => {
     const location = useLocation();
     const cat = location.pathname.split("/")[2];
@@ -45,6 +48,7 @@ const ProductList = () => {
     const [filters, setFilters] = useState("noFilter");
     const [sort, setSort] = useState("newest");    
 
+    
     const handleFilters = (e) => {
         const value = e.target.value;
         setFilters({
@@ -81,7 +85,7 @@ const ProductList = () => {
                         <Option value={(subCategories[0][0] === cat) ? "Espresso" : "Coffee Press"}>{(subCategories[0][0] === cat) ? "Espresso" : "Coffee Press"}</Option>
                         <Option value={(subCategories[0][0] === cat) ? "Nespresso" : "Cup"}>{(subCategories[0][0] === cat) ? "Nespresso" : "Cup"}</Option>
                     </Select>
-                </Filter>
+                </Filter>     
                 <Filter>
                     <FilterText>Sort Products:</FilterText>
                     <Select onChange={(e) => setSort(e.target.value)}>

@@ -102,14 +102,32 @@ const MenuItem = styled.div`
 
 const Navbar= () =>{
     const quantity = useSelector(state=>state.cart.quantity)
+    const [searchStr, setSearch] = useState([]); 
+
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setSearch({
+            [e.target.name]: value,
+        });
+    };
+
+    useEffect(() => {
+        const getCategories = async ()=>{
+          try{
+            const res = await axios.get('http://localhost:8090/category/getAllCategories');
+            setCategories(res.data);
+          }catch(err){}
+        }
+        getCategories();
+    },[]);
   return (
     <Container>
         <Wrapper>
             <Left>
                 <Language>EN</Language>
                 <SearchContainer>
-                    <Input/>
-                    <SearchIcon style={{color:"gray", fontSize:22}}/> 
+                    <Input onChange={(e) => setSearch(e.target.value)}/>
+                    <SearchIcon style={{color:"gray", fontSize:22}} /> 
                 </SearchContainer>
                 
             </Left>
