@@ -102,14 +102,16 @@ const MenuItem = styled.div`
 
 const Navbar= () =>{
     const quantity = useSelector(state=>state.cart.quantity)
+
+
   return (
     <Container>
         <Wrapper>
             <Left>
                 <Language>EN</Language>
                 <SearchContainer>
-                    <Input/>
-                    <SearchIcon style={{color:"gray", fontSize:22}}/> 
+                    <Input onChange={(e) => setSearch(e.target.value)}/>
+                    <SearchIcon style={{color:"gray", fontSize:22}} /> 
                 </SearchContainer>
                 
             </Left>

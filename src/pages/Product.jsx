@@ -174,6 +174,8 @@ const Product = () => {
             <StarBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
             </Filter>
           </FilterContainer>
+          <FilterTitle> Stock: {product.stocks}</FilterTitle>
+
           <AddContainer>
             <AmountContainer>
               <Remove onClick={() => handleQuantity("dec")}/>

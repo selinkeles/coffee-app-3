@@ -9,6 +9,11 @@ import Categorybar from "../components/Categorybar";
 const Container = styled.div``;
 import {useSelector} from "react-redux";
 import { Link } from "react-router-dom";
+import StripeCheckout from "react-stripe-checkout";
+import { useEffect, useState } from "react";
+import img from "./logo.png";
+
+const KEY = process.env.REACT_APP_STRIPE;
 
 
 const Wrapper = styled.div`
@@ -144,7 +149,14 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const cart = useSelector(state=>state.cart)
+  const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+
   return (
     <Container>
       <Announcement />
@@ -208,7 +220,18 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <StripeCheckout
+              name="OUR LITTLE COFFEE.CO"
+              image={img}
+              billingAddress
+              shippingAddress
+              description={`Your total is $${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey= "pk_test_51KwTJ0DroLN21QkjmKvv2qHFtWb2PSw1wjZ0wWw0hmDqE8cfwLsS0AxuYuLm123gD7lxWWuEcrOjtYFAJgIiTAJE00JPdEEGVY"
+            >
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>
