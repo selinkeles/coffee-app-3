@@ -12,6 +12,10 @@ import { Link } from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import img from "./logo.png";
+import Orders from "../pages/Orders";
+import DeleteIcon from '@material-ui/icons/Delete';
+import { removeProduct } from "../redux/cartRedux";
+import {useDispatch} from "react-redux";
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -140,6 +144,8 @@ const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
 
+const Icon = styled.div``
+
 const Button = styled.button`
   width: 100%;
   padding: 10px;
@@ -149,13 +155,23 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
-
+  const user = useSelector((state) => state.user.currentUser);
+  const [Errors, setErrors] = useState({});
+  const [quantity ,setQuantity] = useState(0);
   const onToken = (token) => {
     setStripeToken(token);
   };
 
+  const handleDelete = (product) => {
+    dispatch(removeProduct({...product}))
+  }
+
+  // const handleQuantity = (product) => {
+  //   setQuantity(product.quantity);
+  // }
 
   return (
     <Container>
@@ -190,6 +206,9 @@ const Cart = () => {
                 </Details>
               </ProductDetail>
               <PriceDetail>
+                <Icon >
+                  <DeleteIcon quantity={product.quantity} onClick= {() => handleDelete(product)} fontSize="large" cursor="pointer"/>
+                </Icon>
                 <ProductAmountContainer>
                   <Add />
                   <ProductAmount>{product.quantity}</ProductAmount>
@@ -229,8 +248,9 @@ const Cart = () => {
               amount={cart.total * 100}
               token={onToken}
               stripeKey= "pk_test_51KwTJ0DroLN21QkjmKvv2qHFtWb2PSw1wjZ0wWw0hmDqE8cfwLsS0AxuYuLm123gD7lxWWuEcrOjtYFAJgIiTAJE00JPdEEGVY"
+            
             >
-              <Button>CHECKOUT NOW</Button>
+              {user ? <Button >CHECKOUT NOW</Button> : <Button disabled={true}>YOU MUST LOGIN TO CHECKOUT</Button>}            
             </StripeCheckout>
           </Summary>
         </Bottom>

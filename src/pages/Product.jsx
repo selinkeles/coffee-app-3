@@ -164,7 +164,7 @@ const Product = () => {
 
   const dispatch = useDispatch();
   const handleClick = () => {
-    if (product.stocks > 0) {
+    if (product.stocks > 0 && quantity <= product.stocks) {
     dispatch(addProduct({...product, quantity}));
   } else {
     setErrors("error");

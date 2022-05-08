@@ -58,7 +58,7 @@ const Products = ({category,subCategory,sort}) => {
         console.log(filteredProducts);
         try{
           console.log(filteredProducts);
-          const res = await axios.get(`http://localhost:8090/product/sortProducts/${filteredProducts}/${sort}`);
+          const res = await axios.post(`http://localhost:8090/product/sortProducts/${sort}`,{filteredProducts});
           
           setSortedProducts(res.data);
         }catch(err){}

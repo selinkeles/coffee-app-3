@@ -4,6 +4,8 @@ import {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
+
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -67,14 +69,14 @@ const Login = () => {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
   const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch, { username, password });
+    login(dispatch, { email, password });
   };
   
   const handleChange = (e) => {
@@ -116,7 +118,7 @@ const Login = () => {
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
-          <Input type="text" placeholder="username" onChange={(e) => setUsername(e.target.value)}/>
+          <Input type="text" placeholder="email" onChange={(e) => setEmail(e.target.value)}/>
           <Input type="text" placeholder="password"   onChange={(e) => setPassword(e.target.value)}/>
           <Button onClick={handleClick} disabled={isFetching}>
           LOGIN

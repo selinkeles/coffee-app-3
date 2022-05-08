@@ -4,6 +4,7 @@ import Categorybar from '../components/Categorybar'
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div``;
 
@@ -89,6 +90,9 @@ const Title = styled.h1`
 `;
 
 const Orders = () => {
+
+  const user = useSelector((state) => state.user.currentUser);
+  console.log(user);
     return (
         <Container>
             <Announcement/>

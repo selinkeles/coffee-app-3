@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-
+/*
 export const userSlice = createSlice({
     name: "user",
     initialState:{
@@ -8,13 +8,12 @@ export const userSlice = createSlice({
         surname: "keles",
         email: "selinkeles@sabanciuniv.edu",
         password: "12345678",
-        address: "",
+        address: "SabanciUniv",
     },
     reducers:{
         update: (state,action) {
 
         }
-    }
 
 
-})
+})*/
