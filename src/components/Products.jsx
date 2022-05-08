@@ -15,12 +15,13 @@ const Container = styled.div`
 `
 
 
-const Products = ({category,subCategory,sort}) => {
+const Products = ({category,subCategory,sort,query}) => {
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [sortedProducts, setSortedProducts] = useState([]);
-  
+
+
   useEffect(() => {
     const getProducts = async ()=>{
       try{
@@ -34,8 +35,12 @@ const Products = ({category,subCategory,sort}) => {
   useEffect(()=> {
     const getFilteredProducts = async ()=>{
 
-      if(subCategory === "noFilter") {
+      if(subCategory === "noFilter" && query.length < 2) {
         setFilteredProducts(products);
+      }
+      else if(subCategory === "noFilter" && query.length > 2) {
+        const res = await axios.get(`http://localhost:8090/product/searchProducts/${query}`);
+        setFilteredProducts(res.data);
       }
       else {
         try{
@@ -45,7 +50,7 @@ const Products = ({category,subCategory,sort}) => {
       }
     }
     getFilteredProducts();
-  },[subCategory,products,sort])
+  },[subCategory,products,sort,query])
 
 /*
   useEffect(() => {

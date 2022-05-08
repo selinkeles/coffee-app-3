@@ -18,11 +18,11 @@ const Info = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 28%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  //align-items: center;
   //justify-content: center;
 `;
 
@@ -35,6 +35,7 @@ const Title = styled.h1`
 `;
 
 const Button = styled.button`
+    display: flex;
     border:none;
     padding: 10px;
     background-color: beige;
@@ -51,6 +52,7 @@ const CategoryItem = ({ item }) => {
       <Info>
         <Title>{item.title}</Title>
         <Button>SHOP NOW</Button>
+
       </Info>
       </Link>
     </Container>
