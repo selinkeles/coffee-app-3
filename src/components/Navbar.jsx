@@ -9,6 +9,9 @@ import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
 import img from "./logo.png";
 import { Link } from "react-router-dom";
 import {useSelector} from "react-redux";
+import { logoutUser } from "../redux/userRedux";
+import {useDispatch} from "react-redux";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 const Container = styled.div`
@@ -43,6 +46,12 @@ const SignIn = styled.div`
     display: flex;
     padding: 5px;
 `;
+
+const logOut = styled.div`
+display: flex;
+align-items: center;
+padding: 5px;`
+
 const SearchContainer = styled.div`
     border: 0.5px solid lightgray;
     display: flex;
@@ -102,6 +111,14 @@ const MenuItem = styled.div`
 
 const Navbar= () =>{
     const quantity = useSelector(state=>state.cart.quantity)
+    const user = useSelector((state) => state.user.currentUser);
+    const dispatch = useDispatch();
+
+    const handleClick = (user) => {
+        if(user){
+            dispatch(logoutUser({...user}))
+        }
+    }
 
 
   return (
@@ -122,17 +139,21 @@ const Navbar= () =>{
             <Logo src={img}/>
             </Link>
                 <MenuItem>
+                {user ? (<logOut onClick={() => handleClick(user)}>Logout
+                </logOut>) : 
                 <Link to="/login" style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                    <LoginContainer>
-                        Login
-                        <PersonIcon style={{color:"gray", fontsize:22}}/>
-                    </LoginContainer>
-                    </Link>
+                <LoginContainer>
+                    Login
+                    <PersonIcon style={{color:"gray", fontsize:22}}/>
+                </LoginContainer>
+                </Link>}
+                
                 </MenuItem>
                 <MenuItem>
+                {user ? <FavoriteIcon style={{color: 'gray'}}/> :
                 <Link to="/signup" style={{ color: 'inherit', textDecoration: 'inherit'}}>
                     <SignIn>Join Us</SignIn>
-                </Link>
+                </Link>}
                 </MenuItem>
                 <Link to="/cart">
                 <MenuItem>
