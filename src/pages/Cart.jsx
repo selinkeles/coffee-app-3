@@ -160,7 +160,7 @@ const Cart = () => {
   const [stripeToken, setStripeToken] = useState(null);
   const user = useSelector((state) => state.user.currentUser);
   const [Errors, setErrors] = useState({});
-  const [quantity ,setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   const onToken = (token) => {
     setStripeToken(token);
   };
@@ -172,6 +172,7 @@ const Cart = () => {
   // const handleQuantity = (product) => {
   //   setQuantity(product.quantity);
   // }
+
 
   return (
     <Container>
@@ -210,9 +211,7 @@ const Cart = () => {
                   <DeleteIcon quantity={product.quantity} onClick= {() => handleDelete(product)} fontSize="large" cursor="pointer"/>
                 </Icon>
                 <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>{product.quantity}</ProductAmount>
-                  <Remove />
+                  <ProductAmount> Count= {product.quantity}</ProductAmount>
                 </ProductAmountContainer>
                 <ProductPrice>$ {product.price * 1 /*product.quantity*/} <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
                 </ProductPrice>

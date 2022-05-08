@@ -40,7 +40,9 @@ const Filter = styled.div`
 const FilterText = styled.span`
     font-size: 20px;
     font-weight: 600;
-    margin-right: 20px;
+    margin-right: 25px;
+    margin-left: 50px;
+
 `
 const Select = styled.select`
     padding: 10px;
@@ -100,14 +102,10 @@ const ProductList = () => {
                     </Select>
                 </Filter>     
                 <Filter>
-                <SearchContainer>
                 <input
             className="search"
             placeholder="Search Products..."
             onChange={(e) => setQuery(e.target.value)} />
-            <SearchIcon style={{color:"gray", fontSize:22}} /> 
-            </SearchContainer>
-
                     <FilterText>Sort Products:</FilterText>
                     <Select onChange={(e) => setSort(e.target.value)}>
                             <Option value="newest">Newest</Option>
