@@ -11,6 +11,7 @@ import {useDispatch} from "react-redux";
 import {useLocation} from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { useSelector } from "react-redux";
 import BlockIcon from '@mui/icons-material/Block';
 
 const Container = styled.div``;
@@ -184,6 +185,11 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [comments, setComments] = useState([]);
   const [Errors, setErrors] = useState({});
+  const user = useSelector((state) => state.user.currentUser);
+  const [userCart,setUserCart] = useState([]);
+  const dispatch = useDispatch();
+
+  console.log(user.id)
 
   useEffect(() => {
     const getComments = async () => {
@@ -210,7 +216,22 @@ const Product = () => {
     getProduct();
   }, [id]);
 
-  
+  useEffect(() => {
+    if(user) {
+      const getUserCart = async () => {
+        try {
+          const res = await axios.post(`http://localhost:8090/carts/initializeUserCart/${user.id}`)
+          setUserCart(res.data);
+          console.log(userCart)
+        }
+        catch(err) {
+          console.log("cart acılmadı")
+         }
+         getUserCart();
+      }
+    }
+  },[user])
+
 
   const handleQuantity = (type) => {
     if (type === "dec") {
@@ -220,15 +241,26 @@ const Product = () => {
     }
   };
 
-  const [user, setUser] = useState("");
-
-  const dispatch = useDispatch();
   const handleClick = () => {
-    if (product.stocks > 0) {
-    dispatch(addProduct({...product, quantity}));
-  } else {
-    setErrors("error");
-  }
+    if (product.stocks > 0 && !user) {
+      dispatch(addProduct({...product, quantity}));
+    } else if(product.stocks > 0 && user) {
+      dispatch(addProduct({...product, quantity}));
+      try {
+        const res = axios.post(`http://localhost:8090/carts/addProductToCart/${user.id}`, {
+        "productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price 
+        });
+        console.log(user.id)
+        setUserCart(res.data);
+        console.log("eklendikten sonra")
+        console.log(userCart);
+      } catch(err) {
+      console.log("carta eklenmedi")
+      }
+    }
+    else {
+      setErrors("error");
+    }
   };
 
 

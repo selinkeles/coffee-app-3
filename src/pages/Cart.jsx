@@ -17,6 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { removeProduct, decreaseQuantity, increaseQuantity, takeOrder } from "../redux/cartRedux";
 import { addOrder } from "../redux/orderRedux";
 import {useDispatch} from "react-redux";
+import axios from "axios";
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -160,11 +161,13 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const user = useSelector((state) => state.user.currentUser);
+  const [userCart,setUserCart] = useState([]);
   const date = new Date();
   const [quantity, setQuantity] = useState(1);
   const onToken = (token) => {
     setStripeToken(token);
   };
+
   console.log(user)
 
   const handleDelete = (product) => {
@@ -182,7 +185,30 @@ const Cart = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const getUserCart = async () => {
+  //     try {
+  //       const res = await axios.post(`http://localhost:8090/carts/initializeUserCart/${user.id}`)
+  //       setUserCart(res.data);
+  //       console.log(userCart)
+  //     }
+  //     catch(err) { }
+  //   }
+  //   getUserCart();
+  // },[user])
 
+  // useEffect(() => {
+  //   const addProducttoUserCart = async () => {
+  //     try {
+  //       const res = await axios.post(`http://localhost:8090/cartsaddProductToCart/${user.id}` , {
+
+  //       })
+
+  //     } catch(err) {
+  //       console.log("carta eklenmedi")
+  //     }
+  //   }
+  // },[user,userCart])
 
   const handleOrder = (cart) => {
     dispatch(addOrder({...cart}));

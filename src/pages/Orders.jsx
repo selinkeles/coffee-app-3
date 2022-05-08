@@ -19,14 +19,16 @@ const OrderWrapper = styled.div`
     margin-top: 40px;
     margin-left: 100px;
     margin-right: 100px;
-    border: 2px solid #d3d3d3;
-    border-radius: 13px;
+
     //background-color: #FBF7F3;
     //background-color: rgba(0,0,0,0.1);
 `;
 
 const Info = styled.div`
   flex: 3;
+  border: 2px solid #d3d3d3;
+  border-radius: 13px;
+  margin-bottom: 15px;
 `;
 
 const Product = styled.div`
@@ -124,8 +126,9 @@ const Icon = styled.div`
 `
 
 const Invoice = styled.div`
-margin-top: 25px;
-
+//margin-top: 25px;
+margin-bottom: 25px;
+margin-left: 25px;
 `
 
 const Button = styled.button`
@@ -157,9 +160,6 @@ const Orders = () => {
   //   setDate(current2);
   // })
 
-
-
-
     return (
         <Container>
             <Announcement/>
@@ -168,8 +168,8 @@ const Orders = () => {
             <Wrapper>
                 <Title>YOUR ORDERS</Title>
                 <OrderWrapper>
-                  <Info>
-                    {order.orders.map(cart=>(cart.products.map(product=>(<Product>
+                  {order.orders.map(cart=>(<Info>
+                    {cart.products.map(product=>(<Product>
                         <ProductDetail>
                             <Image src={product.image}/>
                             <Details>
@@ -182,7 +182,7 @@ const Orders = () => {
                             </Details>
                         </ProductDetail>
                         <PriceDetail>
-                          <Date >Order Date: 
+                          <Date >Order Date: 09.05.2020
                           </Date>
                           <ProductAmountContainer>
                             <ProductAmount>Product Amount: {product.quantity} </ProductAmount>
@@ -195,12 +195,12 @@ const Orders = () => {
                           <Icon>
                             <RestartAltIcon fontSize='large'/>
                           </Icon>
-                          <Invoice>
-                            <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
-                          </Invoice>
                         </OrderStatus>
-                    </Product>))))}
-                  </Info>
+                    </Product>))}
+                    <Invoice>
+                        <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
+                    </Invoice>
+                  </Info>))}
                 </OrderWrapper>
             </Wrapper>
             <Footer/>
