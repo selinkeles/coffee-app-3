@@ -23,8 +23,23 @@ const cartSlice = createSlice({
             
             console.log(action.payload.price)
         },
+        decreaseQuantity:(state,action) => {
+            action.payload.quantity -= 1;
+            //state.products.reverse(action.payload);
+            state.total -= action.payload.price;
+        },
+        increaseQuantity:(state,action) => {
+            action.payload.quantity += 1;
+            //state.products.(action.payload);
+            state.total += action.payload.price;
+        },
+        takeOrder:(state) => {
+            state.quantity = 0;
+            state.total = 0;
+            state.products = [];
+        },
     },
 });
 
-export const {addProduct , removeProduct} = cartSlice.actions;
+export const {addProduct , removeProduct, decreaseQuantity, increaseQuantity, takeOrder} = cartSlice.actions;
 export default cartSlice.reducer;

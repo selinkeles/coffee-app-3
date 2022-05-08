@@ -14,7 +14,8 @@ import { useEffect, useState } from "react";
 import img from "./logo.png";
 import Orders from "../pages/Orders";
 import DeleteIcon from '@material-ui/icons/Delete';
-import { removeProduct } from "../redux/cartRedux";
+import { removeProduct, decreaseQuantity, increaseQuantity, takeOrder } from "../redux/cartRedux";
+import { addOrder } from "../redux/orderRedux";
 import {useDispatch} from "react-redux";
 
 const KEY = process.env.REACT_APP_STRIPE;
@@ -159,15 +160,34 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const user = useSelector((state) => state.user.currentUser);
-  const [Errors, setErrors] = useState({});
-  const [quantity, setQuantity] = useState(0);
+  const date = new Date();
+  const [quantity, setQuantity] = useState(1);
   const onToken = (token) => {
     setStripeToken(token);
   };
+  console.log(user)
 
   const handleDelete = (product) => {
     dispatch(removeProduct({...product}))
   }
+
+  const handleQuantity = (type,product) => {
+    if (type === "dec" && product.quantity >= 2) {
+      console.log(product.quantity)
+      (dispatch(decreaseQuantity({...product})));
+    } else if (type === "inc" && ((product.quantity+1) <= product.stocks)) {
+      setQuantity(product.quantity + 1);
+      console.log(quantity)
+      (dispatch(increaseQuantity({...product})));
+    }
+  };
+
+
+
+  const handleOrder = (cart) => {
+    dispatch(addOrder({...cart}));
+    dispatch(takeOrder());
+  };
 
   // const handleQuantity = (product) => {
   //   setQuantity(product.quantity);
@@ -208,12 +228,14 @@ const Cart = () => {
               </ProductDetail>
               <PriceDetail>
                 <Icon >
-                  <DeleteIcon quantity={product.quantity} onClick= {() => handleDelete(product)} fontSize="large" cursor="pointer"/>
+                  <DeleteIcon onClick= {() => handleDelete(product)} fontSize="large" cursor="pointer"/>
                 </Icon>
                 <ProductAmountContainer>
-                  <ProductAmount> Count= {product.quantity}</ProductAmount>
+                  {/* <Add  cursor='pointer' onClick={() => handleQuantity("inc",product)}/> */}
+                  <ProductAmount>{product.quantity}</ProductAmount>
+                  {/* <Remove cursor='pointer' onClick={() => handleQuantity("dec",product)}/> */}
                 </ProductAmountContainer>
-                <ProductPrice>$ {product.price * 1 /*product.quantity*/} <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
+                <ProductPrice>$ {product.price * product.quantity} <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
                 </ProductPrice>
               </PriceDetail>
             </Product>
@@ -238,7 +260,7 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <StripeCheckout
+            {/* <StripeCheckout
               name="OUR LITTLE COFFEE.CO"
               image={img}
               billingAddress
@@ -247,10 +269,10 @@ const Cart = () => {
               amount={cart.total * 100}
               token={onToken}
               stripeKey= "pk_test_51KwTJ0DroLN21QkjmKvv2qHFtWb2PSw1wjZ0wWw0hmDqE8cfwLsS0AxuYuLm123gD7lxWWuEcrOjtYFAJgIiTAJE00JPdEEGVY"
-            
-            >
-              {user ? <Button >CHECKOUT NOW</Button> : <Button disabled={true}>YOU MUST LOGIN TO CHECKOUT</Button>}            
-            </StripeCheckout>
+
+            > */}
+              {user ? <Button onClick={() =>handleOrder(cart)}>CHECKOUT NOW</Button> : <Button disabled={true}>YOU MUST LOGIN TO CHECKOUT</Button>}            
+            {/* </StripeCheckout> */}
           </Summary>
         </Bottom>
       </Wrapper>

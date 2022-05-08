@@ -84,9 +84,9 @@ const Product = ({item}) => {
         <Circle/>
         <Image src={item.image}/>
         <Info>
-            <Icon onClick = {handleClick}>
+            {/* <Icon onClick = {handleClick}>
                 <ShoppingCartIcon/>
-            </Icon>
+            </Icon> */}
             <Icon>
               <Link to={`/product/${item.id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
                 <SearchIcon/>

@@ -47,7 +47,7 @@ const SignIn = styled.div`
     padding: 5px;
 `;
 
-const logOut = styled.div`
+const LogOut = styled.div`
 display: flex;
 align-items: center;
 padding: 5px;`
@@ -139,8 +139,8 @@ const Navbar= () =>{
             <Logo src={img}/>
             </Link>
                 <MenuItem>
-                {user ? (<logOut onClick={() => handleClick(user)}>Logout
-                </logOut>) : 
+                {user ? (<LogOut onClick={() => handleClick(user)}>Logout
+                </LogOut>) : 
                 <Link to="/login" style={{ color: 'inherit', textDecoration: 'inherit'}}>
                 <LoginContainer>
                     Login

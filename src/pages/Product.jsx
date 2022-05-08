@@ -30,10 +30,7 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const InfoContainer = styled.div`
-  flex: 1;
-  padding: 0px 50px;
-`;
+
 
 const Title = styled.h1`
   font-weight: 200;
@@ -80,12 +77,14 @@ const AddContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  //background-color: black;
 `;
 
 const AmountContainer = styled.div`
   display: flex;
   align-items: center;
   font-weight: 700;
+  padding: 30px;
 `;
 
 const Amount = styled.span`
@@ -98,6 +97,56 @@ const Amount = styled.span`
   justify-content: center;
   margin: 0px 5px;
 `;
+
+const NoComment = styled.div`
+padding: 10px;
+font-weight: 200;
+font-size: 12px
+`
+
+const CommentContainer = styled.div`
+//background-color: black;
+//border: 2px solid #d3d3d3;
+//border-radius: 13px;
+margin-top: 30px;
+display: flex;
+flex-direction: column;
+height: 50%;
+flex: 1 ;`
+
+const Comment = styled.div`
+display: flex;
+justify-content: space-between;
+padding: 10px;
+font-weight: 200;
+font-size: 19px;`
+
+const CommentButton = styled.button`
+padding: 10px;
+border-radius: 13px;
+border: 2px solid #d3d3d3;
+background-color: white;
+cursor: pointer;
+font-weight: 300;
+font-size: 10px;
+&:hover{
+    background-color: #d4f1f9;
+    border: 2px solid #d4f1f9;
+}
+`
+
+const InfoContainer = styled.div`
+  flex: 1;
+  padding: 0px 50px;
+  //background-color: black;
+`;
+
+const Hr = styled.hr`
+  background-color: #eee;
+  border: none;
+  height: 1px;
+`;
+
 
 const Button = styled.button`
   padding: 15px;
@@ -133,18 +182,29 @@ const Product = () => {
   const id = location.pathname.split("/")[2] ;
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [comments, setComments] = useState([]);
   const [Errors, setErrors] = useState({});
 
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8090/comment/getApprovedProductComments/${id}`);
+        setComments(res.data);
+        console.log(res.data)
+      } catch(err) {
+          console.log("comment işi yaş balım")
+      }
+    }
+    getComments();
+  }, [id])
 
   useEffect(() => {
     const getProduct = async () => {
-      console.log(id)
       try {
         const res = await axios.get(`http://localhost:8090/product/getProductById/${id}`);
         setProduct(res.data);
         
       } catch(err) {
-        console.log("cannot get")
       }
     }
     getProduct();
@@ -200,9 +260,9 @@ const Product = () => {
           </FilterTitle>
           <AddContainer>
             <AmountContainer>
-              <Remove onClick={() => handleQuantity("dec")}/>
+              <Remove cursor='pointer' onClick={() => handleQuantity("dec")}/>
               <Amount>{quantity}</Amount>
-              <Add onClick={() => handleQuantity("inc")}/>
+              <Add  cursor='pointer' onClick={() => handleQuantity("inc")}/>
             </AmountContainer>
             <Button  onClick = {handleClick} 
             >ADD TO CART</Button> 
@@ -216,6 +276,16 @@ const Product = () => {
           </InfoContainer>
 
         </AddContainer>
+        <CommentContainer>
+          <Comment>COMMENTS
+            <CommentButton>MAKE COMMENT</CommentButton>
+          </Comment>
+          <Hr/>
+          <NoComment>
+            NO COMMENT YET
+            
+          </NoComment>
+        </CommentContainer>
         </InfoContainer>
       </Wrapper>
       <Newsletter />

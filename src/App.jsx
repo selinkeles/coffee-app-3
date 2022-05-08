@@ -13,6 +13,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import Invoice from "./pages/invoice";
 
 
 const App = () => {
@@ -25,6 +26,9 @@ const App = () => {
         </Route>
         <Route path="/products/:category">
           <ProductList />
+        </Route>
+        <Route path="/invoice">
+          <Invoice />
         </Route>
         <Route path="/product/:id">
           <Product />

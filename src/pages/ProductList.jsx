@@ -83,8 +83,6 @@ const ProductList = () => {
 
   
     const subCategories = [['Coffee','Filter Coffee','Espresso','Nespresso'],['Equipments','Flask','Coffee Press','Cup']]
-
-    console.log(sort)
     return (
         <Container>
             <Announcement/>

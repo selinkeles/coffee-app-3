@@ -52,30 +52,34 @@ const Products = ({category,subCategory,sort,query}) => {
     getFilteredProducts();
   },[subCategory,products,sort,query])
 
-/*
+
   useEffect(() => {
     const getSortedProducts = async () => {
       if(sort === "newest") {
         setSortedProducts(filteredProducts);
       }
       else {
-        console.log(sort);
-        console.log(filteredProducts);
+        //console.log(sort);
+        //console.log(filteredProducts);
         try{
           console.log(filteredProducts);
-          const res = await axios.post(`http://localhost:8090/product/sortProducts/${sort}`,{filteredProducts});
+          const res = await axios.post(`http://localhost:8090/product/sortProducts/${sort}`,filteredProducts);
           
           setSortedProducts(res.data);
+          console.log("denizden")
+          console.log(res.data)
         }catch(err){}
       }
     }
+    //console.log("sorted ones")
+    //console.log(sortedProducts)
     getSortedProducts();
-  },[sort,filteredProducts])*/
+  },[sort,filteredProducts])
 
 
   return (
     <Container>
-        {filteredProducts.map(item=>(
+        {sortedProducts.map(item=>(
             <Product item={item} key={item.id}/>
         ))}
     </Container>
