@@ -21,7 +21,7 @@ const userSlice = createSlice({
     },
     logoutUser: (state,action) => {
       state.currentUser = null;
-    }
+    },
   },
 });
 

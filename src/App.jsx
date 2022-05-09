@@ -5,6 +5,7 @@ import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
+import Payment from "./pages/payment";
 import { useSelector } from "react-redux";
 
 import {
@@ -38,6 +39,9 @@ const App = () => {
         </Route>
         <Route path="/orders">
           <Orders />
+        </Route>
+        <Route path="/payment">
+          <Payment />
         </Route>
         <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
         <Route path="/signup">

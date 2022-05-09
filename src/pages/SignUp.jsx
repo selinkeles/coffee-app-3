@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import {useState, useEffect} from 'react';
-
+import axios from 'axios';
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -58,6 +58,13 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const error = styled.h1`
+    font-size: 20px;
+    font-weight: 200;
+
+    color:  #a02020
+`;  
+
 const Sentence = styled.div`
   margin: 5px 0px;
   font-size: 12px;
@@ -71,11 +78,13 @@ const Register = () => {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [Errors, setErrors] = useState({});
 
   const handleChange = (e) => {
       const {name,value} = e.target;
       setFormValues({...formValues, [name]: value});
   };
+
 
   const handleSubmit = (e) => {
       e.preventDefault();
@@ -88,6 +97,27 @@ const Register = () => {
       console.log(formValues);
     }
   }, [formErrors]);
+
+  const signup = async () => {
+    if(Object.keys(formErrors).length === 0){
+      console.log(formValues.email);
+    try {
+      const res = await axios.post(`http://localhost:8090/user/registerUser`, 
+      {"email": formValues.email, "password": formValues.password});
+      console.log(res.data.password);
+      if(formValues.email==="" || formValues.password==="" ||formValues.name==="" ||formValues.surname==="" ||formValues.confirmpassword==="" ||formValues.username===""){
+        console.log("null");
+        setErrors("Something went wrong!");
+      } else {
+        console.log("success");
+        setErrors("Successfully created");
+            }
+    } catch (err) {
+      console.log(err);
+      setErrors("Something went wrong!");
+    }
+  }
+  };
 
   const validate = (values) => {
       const errors = {};
@@ -163,7 +193,15 @@ const Register = () => {
               By creating an account, I consent to the processing of my personal
               data in accordance with the <b>PRIVACY POLICY</b>
             </Agreement>
-            <Button>CREATE</Button>
+            <Button onClick={signup}>CREATE 
+                         </Button>
+                         <p>
+                         {Errors ==="Successfully created"  ? (
+                          <error>Successfully created </error>
+                          ) : (
+                          <error> </error>
+                        )}
+                        </p>
           </Form>
           <Link to="/login" style={{ color: 'inherit', textDecoration: 'inherit'}}>
             <Sentence>ALREADY HAVE AN ACCOUNT?</Sentence>
