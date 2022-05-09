@@ -300,7 +300,7 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            /* <StripeCheckout
+             {/* <StripeCheckout
               name="OUR LITTLE COFFEE.CO"
               image={img}
               billingAddress
@@ -310,9 +310,12 @@ const Cart = () => {
               token={onToken}
               stripeKey= "pk_test_51KwTJ0DroLN21QkjmKvv2qHFtWb2PSw1wjZ0wWw0hmDqE8cfwLsS0AxuYuLm123gD7lxWWuEcrOjtYFAJgIiTAJE00JPdEEGVY"
 
-            > 
-              {user ? <Button onClick={() =>handleOrder(cart)}>CHECKOUT NOW</Button> : <Button disabled={true}>YOU MUST LOGIN TO CHECKOUT</Button>}            
-             </StripeCheckout> 
+            >  */}
+              {user ? <Link to="/payment">
+                <Button /*onClick={() =>handleOrder(cart)}*/>CHECKOUT NOW</Button>
+              </Link>
+              : <Button disabled={true}>YOU MUST LOGIN TO CHECKOUT</Button>}            
+             {/* </StripeCheckout>  */}
           </Summary>
         </Bottom>
       </Wrapper>

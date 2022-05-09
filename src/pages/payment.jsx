@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import { removeProduct, decreaseQuantity, increaseQuantity, takeOrder } from "../redux/cartRedux";
+import { addOrder } from "../redux/orderRedux";
+import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -79,6 +84,7 @@ const Payment = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [Errors, setErrors] = useState({});
+  const cart = useSelector((state) => state.cart);
 
   const handleChange = (e) => {
       const {name,value} = e.target;
@@ -108,6 +114,11 @@ const Payment = () => {
           }
 }
 ;
+
+const handleOrder = (cart) => {
+  dispatch(addOrder({...cart}));
+  dispatch(takeOrder());
+};
 
   const validate = (values) => {
       const errors = {};
@@ -197,13 +208,13 @@ const Payment = () => {
             By buying this/these product, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button onClick={signup}>PAY 
+          <Button onClick="signup; () => handleOrder(cart);">PAY 
                        </Button>
                        <p>
                        {Errors ==="Successfully paid"  ? (
                         <error>Successfully paid </error>
                         ) : (
-                        <error> </error>
+                        <error>"Successfully paid" </error>
                       )}
                       </p>
         </Form>
