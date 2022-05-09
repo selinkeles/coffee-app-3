@@ -5,6 +5,7 @@ import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
+import Invoice from "./pages/invoice";
 import { useSelector } from "react-redux";
 
 import {
@@ -13,7 +14,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Invoice from "./pages/invoice";
+
 
 
 const App = () => {

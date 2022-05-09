@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useEffect, useState } from "react";
+import Invoice from "./invoice";
 
 const Container = styled.div``;
 
@@ -125,7 +126,7 @@ const Icon = styled.div`
   margin: 10px;
 `
 
-const Invoice = styled.div`
+const InvoiceMsg = styled.div`
 //margin-top: 25px;
 margin-bottom: 25px;
 margin-left: 25px;
@@ -197,9 +198,9 @@ const Orders = () => {
                           </Icon>
                         </OrderStatus>
                     </Product>))}
-                    <Invoice>
+                    <InvoiceMsg>
                         <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
-                    </Invoice>
+                    </InvoiceMsg>
                   </Info>))}
                 </OrderWrapper>
             </Wrapper>

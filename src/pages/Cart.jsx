@@ -168,7 +168,6 @@ const Cart = () => {
     setStripeToken(token);
   };
 
-  console.log(user)
 
   const handleDelete = (product) => {
     dispatch(removeProduct({...product}))

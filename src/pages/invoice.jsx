@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import img from "./logo.png";
+import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 const Container = styled.div`
     margin: 0px 300px 0px 300px;
@@ -25,6 +27,11 @@ const Left = styled.div`
     //background-color: white;
 `;
 
+const BillTo = styled.div`
+display: flex;
+font-weight: 30px;
+`
+
 const Middle = styled.div`
 flex : 1;
 display: flex;
@@ -35,7 +42,12 @@ align-items: center;
 const InvoiceMsg = styled.h1`
 padding: 20px;
 font-size: 40px;
-margin-bottom: 60px;`
+//margin-bottom: 60px;`
+
+const CoffeeMsg = styled.h2`
+padding: 20px;
+font-size: 12px;
+`
 
 const Right = styled.div`
 flex : 1;
@@ -50,6 +62,9 @@ padding: 20px;`
 
 
 const Invoice = () => {
+    const user = useSelector((state) => state.user.currentUser);
+    const dispatch = useDispatch();
+    console.log(user)
 
     return(
         <div>
@@ -59,7 +74,11 @@ const Invoice = () => {
                         <InvoiceMsg>
                         INVOICE
                         </InvoiceMsg>
+                        <CoffeeMsg>
                         OUR LITTLE COFFEE.CO
+                        </CoffeeMsg>
+                        Sabancı Unı.
+                        Orta Mah,      34956 Tuzla/Istanbul
                     </Left>
                     <Middle>
 
@@ -68,6 +87,16 @@ const Invoice = () => {
                     <Right>
                         <Image src={img}/>
                     </Right>
+                </Wrapper>
+                <Wrapper>
+                    <Left>
+                        <BillTo>
+                            BILL TO
+                        </BillTo>
+                        <BillTo>
+                            {user.address}
+                        </BillTo>
+                    </Left>
                 </Wrapper>
             </Container>
         </div>
