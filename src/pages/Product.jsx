@@ -189,8 +189,6 @@ const Product = () => {
   const [userCart,setUserCart] = useState([]);
   const dispatch = useDispatch();
 
-  console.log(user.id)
-
   useEffect(() => {
     const getComments = async () => {
       try {

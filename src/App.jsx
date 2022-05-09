@@ -29,7 +29,7 @@ const App = () => {
         <Route path="/products/:category">
           <ProductList />
         </Route>
-        <Route path="/invoice">
+        <Route path="/invoice" >
           <Invoice />
         </Route>
         <Route path="/product/:id">

@@ -8,7 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useEffect, useState } from "react";
-import Invoice from "./invoice";
+import { Link } from "react-router-dom";
+import Invoice from "./invoice"
+import { createInvoice } from "../redux/invoiceRedux";
 
 const Container = styled.div``;
 
@@ -154,6 +156,12 @@ const Orders = () => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user.currentUser);
   const [date, setDate] = useState();
+  const dispatch = useDispatch();
+
+
+  const handleInvoice = (cart) => {
+    dispatch(createInvoice({...cart}))
+  } 
 
   // useEffect (()=> {
   //   const current = new Date();
@@ -199,7 +207,9 @@ const Orders = () => {
                         </OrderStatus>
                     </Product>))}
                     <InvoiceMsg>
-                        <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
+                        <Link to="/invoice" >
+                        <Button onClick={() => handleInvoice(cart)}>GET INVOICE</Button>
+                        </Link>
                     </InvoiceMsg>
                   </Info>))}
                 </OrderWrapper>

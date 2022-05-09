@@ -2,6 +2,7 @@ import {configureStore} from "@reduxjs/toolkit";
 import cartReducer from "./cartRedux";
 import userReducer from "./userRedux";
 import orderReducer from "./orderRedux";
+import invoiceReducer from "./invoiceRedux";
 
 
 export default configureStore({
@@ -9,5 +10,6 @@ export default configureStore({
         cart: cartReducer,
         user: userReducer,
         order: orderReducer,
+        invoice: invoiceReducer,
     },
 });

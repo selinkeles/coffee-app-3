@@ -85,6 +85,7 @@ const Payment = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [Errors, setErrors] = useState({});
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
       const {name,value} = e.target;
@@ -109,6 +110,7 @@ const Payment = () => {
       console.log("null");
       setErrors("Something went wrong!");
     } else {
+      handleOrder(cart);
       console.log("success");
       setErrors("Successfully paid");
           }
@@ -208,13 +210,13 @@ const handleOrder = (cart) => {
             By buying this/these product, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button onClick="signup; () => handleOrder(cart);">PAY 
+          <Button onClick={signup}>PAY 
                        </Button>
                        <p>
                        {Errors ==="Successfully paid"  ? (
                         <error>Successfully paid </error>
                         ) : (
-                        <error>"Successfully paid" </error>
+                        <error> </error>
                       )}
                       </p>
         </Form>
