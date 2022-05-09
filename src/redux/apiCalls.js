@@ -9,8 +9,11 @@ export const login = async (dispatch, user) => {
   try {
     const res = await axios.post(`http://localhost:8090/user/loginUser`, 
     {"email": user.email, "password": user.password});//.then(res => console.log(res)).catch(err=> console.log(err));
-    dispatch(loginSuccess(res.data));
-    
+    if(res.data.password===null){
+      dispatch(loginFailure());
+    } else {
+      dispatch(loginSuccess(res.data));
+    }
   } catch (err) {
     dispatch(loginFailure());
     console.log("cannot cathc")
