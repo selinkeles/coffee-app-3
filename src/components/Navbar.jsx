@@ -10,6 +10,7 @@ import img from "./logo.png";
 import { Link } from "react-router-dom";
 import {useSelector} from "react-redux";
 import { logoutUser } from "../redux/userRedux";
+import {initialize} from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
@@ -117,6 +118,7 @@ const Navbar= () =>{
     const handleClick = (user) => {
         if(user){
             dispatch(logoutUser({...user}))
+            dispatch(initialize());
         }
     }
 

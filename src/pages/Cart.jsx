@@ -168,6 +168,7 @@ const Cart = () => {
     setStripeToken(token);
   };
 
+  console.log(cart);
 
   const handleDelete = (product) => {
     dispatch(removeProduct({...product}))
@@ -256,13 +257,13 @@ const Cart = () => {
           <Info>
             {cart.products.map(product=>(<Product>
               <ProductDetail>
-                <Image src={product.image} />
+                <Image src={product.productImage} />
                 <Details>
                   <ProductName>
-                    <b>Product:</b> {product.name}
+                    <b>Product:</b> {product.productName}
                   </ProductName>
                   <ProductId>
-                    <b>ID:</b> {product.id}
+                    <b>ID:</b> {product.productId}
                   </ProductId>
                 </Details>
               </ProductDetail>

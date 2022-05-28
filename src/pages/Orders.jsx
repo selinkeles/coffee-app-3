@@ -8,9 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Invoice from "./invoice"
-import { createInvoice } from "../redux/invoiceRedux";
+import axios from "axios";
 
 const Container = styled.div``;
 
@@ -22,16 +20,14 @@ const OrderWrapper = styled.div`
     margin-top: 40px;
     margin-left: 100px;
     margin-right: 100px;
-
+    border: 2px solid #d3d3d3;
+    border-radius: 13px;
     //background-color: #FBF7F3;
     //background-color: rgba(0,0,0,0.1);
 `;
 
 const Info = styled.div`
   flex: 3;
-  border: 2px solid #d3d3d3;
-  border-radius: 13px;
-  margin-bottom: 15px;
 `;
 
 const Product = styled.div`
@@ -128,10 +124,9 @@ const Icon = styled.div`
   margin: 10px;
 `
 
-const InvoiceMsg = styled.div`
-//margin-top: 25px;
-margin-bottom: 25px;
-margin-left: 25px;
+const Invoice = styled.div`
+margin-top: 25px;
+
 `
 
 const Button = styled.button`
@@ -155,19 +150,16 @@ const Orders = () => {
   const order = useSelector((state) => state.order);
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user.currentUser);
+  const [returnOrder, setReturnOrder] = useState([]);
   const [date, setDate] = useState();
-  const dispatch = useDispatch();
-
-
-  const handleInvoice = (cart) => {
-    dispatch(createInvoice({...cart}))
-  } 
 
   // useEffect (()=> {
   //   const current = new Date();
   //   const current2 = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
   //   setDate(current2);
   // })
+
+    console.log(order);
 
     return (
         <Container>
@@ -177,21 +169,21 @@ const Orders = () => {
             <Wrapper>
                 <Title>YOUR ORDERS</Title>
                 <OrderWrapper>
-                  {order.orders.map(cart=>(<Info>
-                    {cart.products.map(product=>(<Product>
+                  <Info>
+                    {order.orders.map(cart=>(cart.productList.map(product=>(<Product>
                         <ProductDetail>
-                            <Image src={product.image}/>
+                            <Image src={product.productImage}/>
                             <Details>
                                 <ProductName>
-                                <b>Product:</b> {product.name}
+                                <b>Product:</b> {product.productName}
                                 </ProductName>
                                 <ProductId>
-                                <b>ID:</b> {product.id}
+                                <b>ID:</b> {product.productId}
                                 </ProductId>
                             </Details>
                         </ProductDetail>
                         <PriceDetail>
-                          <Date >Order Date: 09.05.2020
+                          <Date >Order Date: 
                           </Date>
                           <ProductAmountContainer>
                             <ProductAmount>Product Amount: {product.quantity} </ProductAmount>
@@ -204,14 +196,12 @@ const Orders = () => {
                           <Icon>
                             <RestartAltIcon fontSize='large'/>
                           </Icon>
+                          <Invoice>
+                            <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
+                          </Invoice>
                         </OrderStatus>
-                    </Product>))}
-                    <InvoiceMsg>
-                        <Link to="/invoice" >
-                        <Button onClick={() => handleInvoice(cart)}>GET INVOICE</Button>
-                        </Link>
-                    </InvoiceMsg>
-                  </Info>))}
+                    </Product>))))}
+                  </Info>
                 </OrderWrapper>
             </Wrapper>
             <Footer/>

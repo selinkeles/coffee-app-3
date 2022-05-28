@@ -2,10 +2,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { removeProduct, decreaseQuantity, increaseQuantity, takeOrder } from "../redux/cartRedux";
+import {removeProduct, decreaseQuantity, increaseQuantity, takeOrder, addProduct} from "../redux/cartRedux";
 import { addOrder } from "../redux/orderRedux";
+import {initialize} from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
+//const user = useSelector((state) => state.user.currentUser);
 
 const Container = styled.div`
   width: 100vw;
@@ -85,6 +87,8 @@ const Payment = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [Errors, setErrors] = useState({});
   const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user.currentUser);
+  const usercart = useSelector((state) => state.user.cart);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -92,12 +96,12 @@ const Payment = () => {
       setFormValues({...formValues, [name]: value});
   };
 
-
   const handleSubmit = (e) => {
       e.preventDefault();
       setFormErrors(validate(formValues));
       setIsSubmit(true);
   };
+
 
   useEffect(() => {
     if(Object.keys(formErrors).length === 0 && isSubmit) {
@@ -105,22 +109,27 @@ const Payment = () => {
     }
   }, [formErrors]);
 
-  const signup =  () => {
-    if(formValues.name==="" || formValues.password==="" ||formValues.surname==="" ||formValues.shippingAddress==="" ||formValues.card==="" ||formValues.shippingadress===""||formValues.cvc===""||formValues.exp===""){
-      console.log("null");
-      setErrors("Something went wrong!");
-    } else {
-      handleOrder(cart);
-      console.log("success");
-      setErrors("Successfully paid");
-          }
-}
-;
 
+/*
 const handleOrder = (cart) => {
   dispatch(addOrder({...cart}));
   dispatch(takeOrder());
-};
+};*/
+    const handleClick = () => {
+        try {
+            console.log(usercart);
+            const res = axios.post(`http://localhost:8090/carts/makeOrder/${usercart.id}`);
+                console.log(res.data);
+                dispatch(addOrder(usercart.id));
+                dispatch(initialize());
+                const res1 = axios.post(`http://localhost:8090/carts/emptyCart/${user.id}`)
+               // console.log("eklendikten sonra")
+                //console.log(userCart);
+            } catch(err) {
+                console.log("order eklenmedi")
+            }
+
+    };
 
   const validate = (values) => {
       const errors = {};
@@ -156,11 +165,11 @@ const handleOrder = (cart) => {
         errors.email = "This is not a valid email format!"
       }
       return errors;
-  }
+  };
 
   const handlePlaceholder = (e) => {
     
-  }
+  };
   return (
     <Container>
       <Wrapper>
@@ -210,7 +219,7 @@ const handleOrder = (cart) => {
             By buying this/these product, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button onClick={signup}>PAY 
+          <Button onClick={handleClick}>PAY
                        </Button>
                        <p>
                        {Errors ==="Successfully paid"  ? (
@@ -228,4 +237,5 @@ const handleOrder = (cart) => {
   );
 };
   
-  export default Payment;
+export default Payment;
+

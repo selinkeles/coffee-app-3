@@ -2,8 +2,8 @@ import styled from "styled-components";
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
-import { login } from "../redux/apiCalls";
-import { useDispatch, useSelector } from "react-redux";
+import { login, getCartID } from "../redux/apiCalls";
+import { useDispatch, useSelector, useStore } from "react-redux";
 
 
 const Container = styled.div`

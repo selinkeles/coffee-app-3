@@ -6,6 +6,8 @@ const userSlice = createSlice({
     currentUser: null,
     isFetching: false,
     error: false,
+    cart: null,
+    //cartid: null
   },
   reducers: {
     loginStart: (state) => {
@@ -22,8 +24,11 @@ const userSlice = createSlice({
     logoutUser: (state,action) => {
       state.currentUser = null;
     },
+    setCart: (state, action) => {
+      state.cart = action.payload;
+    }
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logoutUser} = userSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logoutUser, setCart} = userSlice.actions;
 export default userSlice.reducer;
