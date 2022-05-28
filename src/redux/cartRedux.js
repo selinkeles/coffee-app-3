@@ -4,6 +4,7 @@ const cartSlice = createSlice({
     name: "cart",
     initialState:{
         products:[],
+        comments:[],
         quantity:0,
         total: 0,
     },
@@ -35,6 +36,9 @@ const cartSlice = createSlice({
             state.products.pop(action.payload);
             
             console.log(action.payload.price)
+        },
+        makecomment:(state,action) => {
+            state.comments.push(action.payload);
         },
         decreaseQuantity:(state,action) => {
             action.payload.quantity -= 1;

@@ -94,6 +94,7 @@ const Logo = styled.img`
 height: 60px;
 cursor: pointer;
 margin-right: 250px;
+margin-leftt: 1px;
 `
 const Right = styled.div`
     flex : 1;

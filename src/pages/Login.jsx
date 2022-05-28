@@ -119,7 +119,7 @@ const Login = () => {
         <Title>SIGN IN</Title>
         <Form>
           <Input type="text" placeholder="email" onChange={(e) => setEmail(e.target.value)}/>
-          <Input type="text" placeholder="password"   onChange={(e) => setPassword(e.target.value)}/>
+          <Input type="password" placeholder="password"   onChange={(e) => setPassword(e.target.value)}/>
           <Button onClick={handleClick} disabled={isFetching}>
           LOGIN
           </Button>

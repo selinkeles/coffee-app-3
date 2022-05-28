@@ -219,7 +219,7 @@ const handleOrder = (cart) => {
             By buying this/these product, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button onClick={handleClick}>PAY
+          <Button onClick={handleClick}>PAY ${cart.total}
                        </Button>
                        <p>
                        {Errors ==="Successfully paid"  ? (
