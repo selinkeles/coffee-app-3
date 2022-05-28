@@ -7,6 +7,7 @@ import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import Invoice from "./pages/invoice";
 import Payment from "./pages/payment";
+import Wishlist from "./pages/wishlist";
 import { useSelector } from "react-redux";
 
 import {
@@ -43,6 +44,9 @@ const App = () => {
         </Route>
         <Route path="/payment">
           <Payment />
+        </Route>
+        <Route path="/wishlist">
+          <Wishlist />
         </Route>
         <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
         <Route path="/signup">

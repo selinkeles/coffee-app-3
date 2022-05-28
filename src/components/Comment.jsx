@@ -74,12 +74,11 @@ const Comment = ({item}) => {
   };
   return (
     <Container>
-        <Info>
         {item.comment}
-        {item.nameSurname}
-        </Info>
+        {"      "} {item.nameSurname}
+
     </Container>
   )
 }
 
-export default Product
+export default Comment;
