@@ -7,7 +7,7 @@ import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import Invoice from "./pages/invoice";
 import Payment from "./pages/payment";
-import Wishlist from "./pages/wishlist";
+import Wishlist from "./pages/Wishlist";
 import { useSelector } from "react-redux";
 
 import {

@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import BlockIcon from '@mui/icons-material/Block';
 import {Rating} from 'react-simple-star-rating';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import Comment from '../components/Comment';
+import comment from '../components/Comment'
 
 const Container = styled.div``;
 
@@ -116,7 +116,7 @@ flex-direction: column;
 height: 50%;
 flex: 1 ;`
 
-const Commentcontainer = styled.div`
+const Comment = styled.div`
 display: flex;
 justify-content: space-between;
 padding: 10px;
@@ -126,13 +126,13 @@ font-size: 19px;`
 const CommentButton = styled.button`
 padding: 10px;
 border-radius: 13px;
-border: 2px solid #d3d3d3;
+border: 2px light pink;
 background-color: white;
 cursor: pointer;
 font-weight: 300;
 font-size: 10px;
 &:hover{
-    background-color: #d4f1f9;
+    background-color: beige;
     border: 2px solid #d4f1f9;
 }
 `
@@ -204,7 +204,7 @@ const Product = () => {
       }
     }
     getComments();
-  }, [])
+  }, [id])
 
   useEffect(() => {
     const getProduct = async () => {
@@ -283,7 +283,6 @@ const Product = () => {
       console.log(value);
   }
 
-
   return (
     <Container>
       <Announcement />
@@ -335,8 +334,8 @@ const Product = () => {
                   id="demo-simple-select"
                   //value={age}
                   label="Rating"
-                  //onChange={e => setValue(e.target.value)}>
-              >
+                  onChange={e => setValue(e.target.value)}>
+              
                 <MenuItem value={1}>1</MenuItem>
                 <MenuItem value={2}>2</MenuItem>
                 <MenuItem value={3}>3</MenuItem>
@@ -346,16 +345,16 @@ const Product = () => {
             </FormControl>
         </AddContainer>
         <CommentContainer>
-          <Commentcontainer>COMMENTS
+          <Comment>COMMENTS
             <CommentButton onClick={handleClick1}>MAKE COMMENT</CommentButton>
-          </Commentcontainer>
+          </Comment>
           <Hr/>
           <input
               className="search"
               placeholder="Search Products..."
               onChange={(e) => setQuery(e.target.value)} />
-              {comments.map(item=>(
-            <Comment item={item} key={item.id}/>
+        {comments.map(item=>(
+            <comment item={item} key={item.id}/>
         ))}
         </CommentContainer>
         </InfoContainer>

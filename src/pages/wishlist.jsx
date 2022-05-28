@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import img from "./logo.png";
-import Orders from "../pages/Orders";
+import Orders from "./Orders";
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeProduct, decreaseQuantity, increaseQuantity, takeOrder } from "../redux/cartRedux";
 import { addOrder } from "../redux/orderRedux";
