@@ -13,6 +13,7 @@ import { logoutUser } from "../redux/userRedux";
 import {initialize} from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
 const Container = styled.div`
@@ -112,7 +113,8 @@ const MenuItem = styled.div`
 `;
 
 const Navbar= () =>{
-    const quantity = useSelector(state=>state.cart.quantity)
+    const quantity = useSelector(state=>state.cart.quantity);
+    const quantity2 = useSelector(state=>state.wishlist.quantity2);
     const user = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
 
@@ -153,10 +155,14 @@ const Navbar= () =>{
                 
                 </MenuItem>
                 <MenuItem>
-                {user ? <FavoriteIcon style={{color: 'gray'}}/> :
-                <Link to="/signup" style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                    <SignIn>Join Us</SignIn>
-                </Link>}
+                    {user ?                 <Link to="/wishlist">
+                            <Badge badgeContent={quantity2} color="primary">
+                                <FavoriteBorderIcon color="action" style={{fontsize:22}} />
+                            </Badge>
+                        </Link> :
+                        <Link to="/signup" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                            <SignIn>Join Us</SignIn>
+                        </Link>}
                 </MenuItem>
                 <Link to="/cart">
                 <MenuItem>

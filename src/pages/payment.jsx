@@ -5,6 +5,7 @@ import axios from 'axios';
 import {removeProduct, decreaseQuantity, increaseQuantity, takeOrder, addProduct} from "../redux/cartRedux";
 import { addOrder } from "../redux/orderRedux";
 import {initialize} from "../redux/cartRedux";
+import {createInvoice} from "../redux/invoiceRedux";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
 //const user = useSelector((state) => state.user.currentUser);
@@ -90,6 +91,7 @@ const Payment = () => {
   const user = useSelector((state) => state.user.currentUser);
   const usercart = useSelector((state) => state.user.cart);
   const dispatch = useDispatch();
+  const date = Date.now();
 
   const handleChange = (e) => {
       const {name,value} = e.target;
@@ -115,12 +117,14 @@ const handleOrder = (cart) => {
   dispatch(addOrder({...cart}));
   dispatch(takeOrder());
 };*/
-    const handleClick = () => {
+    const handleClick = async () => {
         try {
             console.log(usercart);
-            const res = axios.post(`http://localhost:8090/carts/makeOrder/${usercart.id}`);
+
+            const res = await axios.post(`http://localhost:8090/carts/makeOrder/${usercart.id}`);
                 console.log(res.data);
-                dispatch(addOrder(usercart.id));
+                dispatch(addOrder(usercart));
+                dispatch(createInvoice(usercart));
                 dispatch(initialize());
                 const res1 = axios.post(`http://localhost:8090/carts/emptyCart/${user.id}`)
                // console.log("eklendikten sonra")
@@ -167,9 +171,6 @@ const handleOrder = (cart) => {
       return errors;
   };
 
-  const handlePlaceholder = (e) => {
-    
-  };
   return (
     <Container>
       <Wrapper>

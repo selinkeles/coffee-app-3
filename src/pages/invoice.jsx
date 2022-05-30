@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import img from "./logo.png";
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
+import {flagChangeFalse} from "../redux/invoiceRedux";
 import { useEffect, useState } from "react";
 
 const Container = styled.div`
@@ -92,16 +93,14 @@ margin-right: 30px;
   height: 2px;
 `;
 
-
 const Invoice = () => {
     const user = useSelector((state) => state.user.currentUser);
-    const invoice = useSelector((state) => state.invoice.products);
-    //var [number, setNumber] = useState(100);
+    const invoice = useSelector((state) => state.invoice.showInvoice.invoiceProductList);
     const dispatch = useDispatch();
-
     // useEffect(() => {
     //     setNumber(number += 1);
     // })
+    console.log(invoice);
 
     return(
         <div>
@@ -164,10 +163,10 @@ const Invoice = () => {
                 <ProductContainer>
                         {invoice.map(product=>(<Details>
                                 <ProductName>
-                                <b>Product:</b> {product.name}
+                                <b>Product:</b> {product.productName}
                                 </ProductName>
                                 <ProductId>
-                                <b>ID:</b> {product.id}
+                                <b>ID:</b> {product.productID}
                                 </ProductId>
                             </Details>))}
                 </ProductContainer>

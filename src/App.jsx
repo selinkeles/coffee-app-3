@@ -21,6 +21,7 @@ import {
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
+  const invoiceFlag = useSelector((state) => state.invoice.flag);
   return (
     <Router>
       <Switch>
@@ -40,7 +41,7 @@ const App = () => {
           <Cart />
         </Route>
         <Route path="/orders">
-          <Orders />
+          <Orders />}
         </Route>
         <Route path="/payment">
           <Payment />

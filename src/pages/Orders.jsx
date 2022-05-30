@@ -8,7 +8,19 @@ import { useDispatch, useSelector } from "react-redux";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useEffect, useState } from "react";
+import { flagChangeTrue, loadInvoice, initialize } from "../redux/invoiceRedux";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
+import {TextField} from "@mui/material";
+
+
+
+
 
 const Container = styled.div``;
 
@@ -98,10 +110,11 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const Date = styled.div`
+const DateStyle = styled.div`
 font-weight: 300;
 font-size: 16px;
 margin: 5px;`
+
 
 const OrderStatus = styled.div`
   padding: 20px;
@@ -148,18 +161,31 @@ const Button = styled.button`
 
 const Orders = () => {
   const order = useSelector((state) => state.order);
-  const cart = useSelector((state) => state.cart);
+  const cartRe = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user.currentUser);
   const [returnOrder, setReturnOrder] = useState([]);
   const [date, setDate] = useState();
+  const dispatch = useDispatch();
+  const [startDate, setStartDate] = useState(new Date());
+  const [lastDate, setLastDate] = useState(new Date());
 
-  // useEffect (()=> {
-  //   const current = new Date();
-  //   const current2 = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-  //   setDate(current2);
-  // })
+    const navigate = useHistory();
 
-    console.log(order);
+  const handleInvoice = async (cart) => {
+      console.log(cart.id);
+      const res = await axios.get(`http://localhost:8090/invoice/getOrderInvoice/${cart.id}`);
+      console.log(res.data);
+      dispatch(initialize());
+      dispatch(loadInvoice(res.data));
+      let path = `/invoice`;
+      navigate.push(path);
+  };
+
+  const handleGetOrder = async () => {
+      console.log(startDate);
+      const res = await axios.post(`http://localhost:8090/order/listByDateRange`, {"from":startDate, "to":lastDate});
+      console.log(res.data);
+  };
 
     return (
         <Container>
@@ -168,9 +194,26 @@ const Orders = () => {
             <Categorybar/>
             <Wrapper>
                 <Title>YOUR ORDERS</Title>
-                <OrderWrapper>
+                <DatePicker
+                    label="Basic example"
+                    selected = {startDate}
+                    onChange={(newDate) => {
+                        setStartDate(newDate)
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+                <DatePicker
+                    label="Basic example"
+                    selected = {lastDate}
+                    onChange={(newDate) => {
+                        setLastDate(newDate)
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+                <Button onClick={()=>handleGetOrder}>Get Order</Button>
+                {order.orders.map(cart=>(<OrderWrapper>
                   <Info>
-                    {order.orders.map(cart=>(cart.productList.map(product=>(<Product>
+                    {cart.productList.map(product=>(<Product>
                         <ProductDetail>
                             <Image src={product.productImage}/>
                             <Details>
@@ -183,8 +226,8 @@ const Orders = () => {
                             </Details>
                         </ProductDetail>
                         <PriceDetail>
-                          <Date >Order Date: 
-                          </Date>
+                          <DateStyle > <b>Date:</b> {cart.orderDate}
+                          </DateStyle>
                           <ProductAmountContainer>
                             <ProductAmount>Product Amount: {product.quantity} </ProductAmount>
                           </ProductAmountContainer>
@@ -200,9 +243,9 @@ const Orders = () => {
                             <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
                           </Invoice>
                         </OrderStatus>
-                    </Product>))))}
+                    </Product>))}
                   </Info>
-                </OrderWrapper>
+                </OrderWrapper>))}
             </Wrapper>
             <Footer/>
         </Container>

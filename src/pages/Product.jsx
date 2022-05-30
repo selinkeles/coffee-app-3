@@ -15,7 +15,8 @@ import { useSelector } from "react-redux";
 import BlockIcon from '@mui/icons-material/Block';
 import {Rating} from 'react-simple-star-rating';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import comment from '../components/Comment'
+import comment from '../components/Comment';
+import { addProduct2 } from "../redux/wishlistRedux";
 
 const Container = styled.div``;
 
@@ -278,10 +279,34 @@ const Product = () => {
       }
   };
 
-  const handleRating = () => {
-      setValue()
+  const handleRating = async () => {
       console.log(value);
+      const res = await axios.post(`http://localhost:8090/product/rateProduct/${product.id}`, {value});
+      console.log(res.data)
+      product.rating = res.data;
   }
+
+  const handleClick2 = () => {
+    if (!user) {
+      dispatch(addProduct2({...product, quantity}));
+    } else if(user) {
+      //dispatch(addProduct({...product, quantity}));
+      try {
+        const res = axios.post(`http://localhost:8090/carts/addToWishlist/${user.id}/${product.id}`);
+        console.log(product.id);
+        dispatch(addProduct2({"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}));
+        //setUserCart(res.data);
+        console.log("wl eklendikten sonra")
+      } catch(err) {
+        console.log("wl eklenmedi")
+      }
+    }
+    else {
+      setErrors("error");
+      console.log("wl sıkıntı")
+
+    }
+  };
 
   return (
     <Container>
@@ -315,9 +340,11 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add  cursor='pointer' onClick={() => handleQuantity("inc")}/>
             </AmountContainer>
-            <Button  onClick = {handleClick} 
-            >ADD TO CART</Button> 
-          <InfoContainer>
+            <CommentButton  onClick = {handleClick}
+            >ADD TO CART</CommentButton>
+            <CommentButton  onClick = {handleClick2}
+            >ADD TO WISHLIST</CommentButton>
+            <InfoContainer>
 
                         {Errors ==="error"  ? (
                           <error> currently not available<BlockIcon color="white" style={{fontsize:22, marginRight:"10px"}} /> </error>
@@ -332,7 +359,7 @@ const Product = () => {
               <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  //value={age}
+                  value={value}
                   label="Rating"
                   onChange={e => setValue(e.target.value)}>
               
@@ -342,6 +369,8 @@ const Product = () => {
                 <MenuItem value={4}>4</MenuItem>
                 <MenuItem value={5}>5</MenuItem>
               </Select>
+              <Button onClick={handleRating}
+              >Give Rating</Button>
             </FormControl>
         </AddContainer>
         <CommentContainer>
