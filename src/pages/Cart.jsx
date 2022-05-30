@@ -250,7 +250,6 @@ const Cart = () => {
             <Link to="/orders" style={{ color: 'inherit', textDecoration: 'inherit'}}>
             <TopText>Your Orders</TopText>
             </Link>
-            <TopText>Your Wishlist (0)</TopText>
           </TopTexts>
         </Top>
         <Bottom>
@@ -259,8 +258,8 @@ const Cart = () => {
               <ProductDetail>
                 <Image src={product.productImage} />
                 <Details>
-                  <ProductName>
-                    <b>Product:</b> {product.productName}
+                <ProductName>
+                    <b> <Link to={`/product/${product.productId}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>{product.productName}</Link></b>
                   </ProductName>
                   <ProductId>
                     <b>ID:</b> {product.productId}
