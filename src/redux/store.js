@@ -3,6 +3,7 @@ import cartReducer from "./cartRedux";
 import userReducer from "./userRedux";
 import orderReducer from "./orderRedux";
 import invoiceReducer from "./invoiceRedux";
+import wishlistReducer from "./wishlistRedux";
 
 
 export default configureStore({
@@ -11,5 +12,7 @@ export default configureStore({
         user: userReducer,
         order: orderReducer,
         invoice: invoiceReducer,
+        wishlist: wishlistReducer,
+
     },
 });

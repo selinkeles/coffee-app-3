@@ -35,7 +35,7 @@ const Products = ({category,subCategory,sort,query}) => {
   useEffect(()=> {
     const getFilteredProducts = async ()=>{
 
-      if(subCategory === "noFilter" && query.length < 2) {
+      if(subCategory === "noFilter" && query.length <= 2) {
         setFilteredProducts(products);
       }
       else if(subCategory === "noFilter" && query.length > 2) {

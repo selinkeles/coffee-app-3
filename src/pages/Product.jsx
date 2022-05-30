@@ -7,6 +7,8 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { addProduct } from "../redux/cartRedux";
+import { addProduct2 } from "../redux/wishlistRedux";
+
 import {useDispatch} from "react-redux";
 import {useLocation} from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -188,10 +190,11 @@ const Product = () => {
   const [Errors, setErrors] = useState({});
   const user = useSelector((state) => state.user.currentUser);
   const [userCart,setUserCart] = useState([]);
+  const [userWishlist,setUserWishlist] = useState([]);
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [value, setValue] = useState(1);
-
+///deleteFromWishlist/{userID}/{productID}
   useEffect(() => {
     const getComments = async () => {
       try {
@@ -233,7 +236,6 @@ const Product = () => {
     }
   },[user])
 
-
   const handleQuantity = (type) => {
     if (type === "dec") {
       quantity > 1 && setQuantity(quantity - 1);
@@ -262,6 +264,30 @@ const Product = () => {
     }
     else {
       setErrors("error");
+    }
+  };
+
+  const handleClick2 = () => {
+    if (!user) {
+      dispatch(addProduct2({...product, quantity}));
+    } else if(user) {
+      //dispatch(addProduct({...product, quantity}));
+      try {
+        const res = axios.post(`http://localhost:8090/carts/addToWishlist/${user.id}/${product.id}`, {
+        "productId": product.id, "productName": product.name, "productImage": product.image, "price": product.price 
+        });
+        console.log(product.id);
+        dispatch(addProduct2({"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}));
+        //setUserCart(res.data);
+        console.log("wl eklendikten sonra")
+      } catch(err) {
+      console.log("wl eklenmedi")
+      }
+    }
+    else {
+      setErrors("error");
+      console.log("wl sıkıntı")
+
     }
   };
 
@@ -315,8 +341,10 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add  cursor='pointer' onClick={() => handleQuantity("inc")}/>
             </AmountContainer>
-            <Button  onClick = {handleClick} 
-            >ADD TO CART</Button> 
+            <CommentButton  onClick = {handleClick} 
+            >ADD TO CART</CommentButton> 
+            <CommentButton  onClick = {handleClick2} 
+            >ADD TO WISHLIST</CommentButton> 
           <InfoContainer>
 
                         {Errors ==="error"  ? (

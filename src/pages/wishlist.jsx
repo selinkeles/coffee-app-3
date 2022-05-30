@@ -1,10 +1,9 @@
-import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Categorybar from "../components/Categorybar";
 const Container = styled.div``;
 import {useSelector} from "react-redux";
@@ -12,14 +11,15 @@ import { Link } from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import img from "./logo.png";
-import Orders from "./Orders";
+import Orders from "../pages/Orders";
 import DeleteIcon from '@material-ui/icons/Delete';
-import { removeProduct, decreaseQuantity, increaseQuantity, takeOrder } from "../redux/cartRedux";
+import { removeProduct2} from "../redux/wishlistRedux";
 import { addOrder } from "../redux/orderRedux";
 import {useDispatch} from "react-redux";
 import axios from "axios";
 
 const KEY = process.env.REACT_APP_STRIPE;
+
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -155,173 +155,124 @@ const Button = styled.button`
   font-weight: 600;
 `;
 
-const Cart = () => {
-    const dispatch = useDispatch();
-    const cart = useSelector((state) => state.cart);
-    const [stripeToken, setStripeToken] = useState(null);
-    const user = useSelector((state) => state.user.currentUser);
-    const [userCart,setUserCart] = useState([]);
-    const date = new Date();
-    const [quantity, setQuantity] = useState(1);
-    const onToken = (token) => {
-        setStripeToken(token);
-    };
+const Wishlist = () => {
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.wishlist);
 
-    console.log(cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const user = useSelector((state) => state.user.currentUser);
+  const date = new Date();
+  const [quantity, setQuantity] = useState(1);
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
 
-    const handleDelete = (product) => {
-        dispatch(removeProduct({...product}))
+  console.log(wishlist);
+
+ 
+  const handleDelete2 = (product) => {
+    try {
+      const res = axios.post(`http://localhost:8090/wishlist/deleteFromWishlist/${user.id}/${product.id}`, {
+      "productId": product.id, "productName": product.name, "productImage": product.image, "price": product.price 
+      });
+      console.log(product.id);
+      dispatch(removeProduct2({...product}))
+      console.log("wl silindikten sonra")
+    } catch(err) {
+    console.log("wl silinmedi")
     }
+  };
+  
 
-    const handleQuantity = (type,product) => {
-        if (type === "dec" && product.quantity >= 2) {
-            console.log(product.quantity)
-            (dispatch(decreaseQuantity({...product})));
-        } else if (type === "inc" && ((product.quantity+1) <= product.stocks)) {
-            setQuantity(product.quantity + 1);
-            console.log(quantity)
-            (dispatch(increaseQuantity({...product})));
-        }
-    };
+  const handleQuantity = (type,product) => {
+    if (type === "dec" && product.quantity >= 2) {
+      console.log(product.quantity)
+      (dispatch(decreaseQuantity2({...product})));
+    } else if (type === "inc" && ((product.quantity+1) <= product.stocks)) {
+      setQuantity(product.quantity + 1);
+      console.log(quantity)
+      (dispatch(increaseQuantity2({...product})));
+    }
+  };
 
-    // useEffect(() => {
-    //   const getUserCart = async () => {
-    //     try {
-    //       const res = await axios.post(`http://localhost:8090/carts/initializeUserCart/${user.id}`)
-    //       setUserCart(res.data);
-    //       console.log(userCart)
-    //     }
-    //     catch(err) { }
-    //   }
-    //   getUserCart();
-    // },[user])
+  // useEffect(() => {
+  //   const getUserCart = async () => {
+  //     try {
+  //       const res = await axios.post(`http://localhost:8090/carts/initializeUserCart/${user.id}`)
+  //       setUserCart(res.data);
+  //       console.log(userCart)
+  //     }
+  //     catch(err) { }
+  //   }
+  //   getUserCart();
+  // },[user])
 
-    // useEffect(() => {
-    //   const addProducttoUserCart = async () => {
-    //     try {
-    //       const res = await axios.post(`http://localhost:8090/cartsaddProductToCart/${user.id}` , {
+  // useEffect(() => {
+  //   const addProducttoUserCart = async () => {
+  //     try {
+  //       const res = await axios.post(`http://localhost:8090/cartsaddProductToCart/${user.id}` , {
 
-    //       })
+  //       })
 
-    //     } catch(err) {
-    //       console.log("carta eklenmedi")
-    //     }
-    //   }
-    // },[user,userCart])
-
-    useEffect(() => {
-        const makeRequest = async () => {
-            try {
-                const res = await userRequest.post("/checkout/payment", {
-                    tokenId: stripeToken.id,
-                    amount: 500,
-                });
-                history.push("/orders", {
-                    stripeData: res.data,
-                    products: cart, });
-            } catch {}
-        };
-        stripeToken && makeRequest();
-    }, [stripeToken, cart.total, history]);
-
-    const handleOrder = (cart) => {
-        dispatch(addOrder({...cart}));
-        dispatch(takeOrder());
-    };
-
-    // const handleQuantity = (product) => {
-    //   setQuantity(product.quantity);
-    // }
+  //     } catch(err) {
+  //       console.log("carta eklenmedi")
+  //     }
+  //   }
+  // },[user,userCart])
 
 
-    return (
-        <Container>
-            <Announcement />
-            <Navbar />
-            <Categorybar/>
-            <Wrapper>
-                <Title>YOUR BAG <ShoppingBasketIcon color="white" style={{fontsize:22, marginRight:"10px"}} /></Title>
-                <Top>
-                    <Link to="/">
-                        <TopButton>CONTINUE SHOPPING</TopButton>
-                    </Link>
-                    <TopTexts>
-                        <Link to="/orders" style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                            <TopText>Your Orders</TopText>
-                        </Link>
-                        <TopText>Your Wishlist (0)</TopText>
-                    </TopTexts>
-                </Top>
-                <Bottom>
-                    <Info>
-                        {cart.products.map(product=>(<Product>
-                                <ProductDetail>
-                                    <Image src={product.productImage} />
-                                    <Details>
-                                        <ProductName>
-                                            <b>Product:</b> {product.productName}
-                                        </ProductName>
-                                        <ProductId>
-                                            <b>ID:</b> {product.productId}
-                                        </ProductId>
-                                    </Details>
-                                </ProductDetail>
-                                <PriceDetail>
-                                    <Icon >
-                                        <DeleteIcon onClick= {() => handleDelete(product)} fontSize="large" cursor="pointer"/>
-                                    </Icon>
-                                    <ProductAmountContainer>
-                                        {/* <Add  cursor='pointer' onClick={() => handleQuantity("inc",product)}/> */}
-                                        <ProductAmount>{product.quantity}</ProductAmount>
-                                        {/* <Remove cursor='pointer' onClick={() => handleQuantity("dec",product)}/> */}
-                                    </ProductAmountContainer>
-                                    <ProductPrice>$ {product.price * product.quantity} <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
-                                    </ProductPrice>
-                                </PriceDetail>
-                            </Product>
-                        ))}
-                        <Hr />
-                    </Info>
-                    <Summary>
-                        <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-                        <SummaryItem>
-                            <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem>
-                            <SummaryItemText>Estimated Shipping</SummaryItemText>
-                            <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem>
-                            <SummaryItemText>Shipping Discount</SummaryItemText>
-                            <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem type="total">
-                            <SummaryItemText>Total</SummaryItemText>
-                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-                        </SummaryItem>
-                        {/* <StripeCheckout
-              name="OUR LITTLE COFFEE.CO"
-              image={img}
-              billingAddress
-              shippingAddress
-              description={`Your total is $${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey= "pk_test_51KwTJ0DroLN21QkjmKvv2qHFtWb2PSw1wjZ0wWw0hmDqE8cfwLsS0AxuYuLm123gD7lxWWuEcrOjtYFAJgIiTAJE00JPdEEGVY"
 
-            >  */}
-                        {user ? <Link to="/payment">
-                                <Button /*onClick={() =>handleOrder(cart)}*/>CHECKOUT NOW</Button>
-                            </Link>
-                            : <Button disabled={true}>YOU MUST LOGIN TO CHECKOUT</Button>}
-                        {/* </StripeCheckout>  */}
-                    </Summary>
-                </Bottom>
-            </Wrapper>
-            <Footer />
-        </Container>
-    );
+  const handleOrder = (cart) => {
+    dispatch(addOrder({...cart}));
+    dispatch(takeOrder());
+  };
+
+  // const handleQuantity = (product) => {
+  //   setQuantity(product.quantity);
+  // }
+
+  return (
+    <Container>
+      <Announcement />
+      <Navbar />
+      <Categorybar/>
+      <Wrapper>
+        <Title>YOUR WISHLIST <FavoriteBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} /></Title>
+        <Top>
+          <Link to="/">
+          <TopButton>CONTINUE SHOPPING</TopButton>
+          </Link>
+        </Top>
+        <Bottom>
+          <Info>
+            {wishlist.products2.map(product=>(<Product>
+              <ProductDetail>
+                <Image src={product.productImage} />
+                <Details>
+                  <ProductName>
+                    <b> <Link to={`/product/${product.productId}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>{product.productName}</Link></b>
+                  </ProductName>
+                  <ProductId>
+                    <b>ID:</b> {product.productId}
+                  </ProductId>
+                </Details>
+              </ProductDetail>
+              <PriceDetail>
+                <Icon >
+                  <DeleteIcon onClick= {() => handleDelete2(product)} fontSize="large" cursor="pointer"/>
+                </Icon>
+                <ProductPrice>$ {product.price} <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
+                </ProductPrice>
+              </PriceDetail>
+            </Product>
+            ))}
+            <Hr />
+          </Info>
+        </Bottom>
+      </Wrapper>
+      <Footer />
+    </Container>
+  );
 };
 
 export default Wishlist;

@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import IconButton from '@mui/material/IconButton';
 import PersonIcon from '@mui/icons-material/Person';
 import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
@@ -113,6 +115,8 @@ const MenuItem = styled.div`
 
 const Navbar= () =>{
     const quantity = useSelector(state=>state.cart.quantity)
+    const quantity2 = useSelector(state=>state.wishlist.quantity2)
+
     const user = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
 
@@ -153,18 +157,22 @@ const Navbar= () =>{
                 
                 </MenuItem>
                 <MenuItem>
-                {user ? <FavoriteIcon style={{color: 'gray'}}/> :
+                {user ?                 <Link to="/wishlist">
+                <Badge badgeContent={quantity2} color="primary">
+                    <FavoriteBorderIcon color="action" style={{fontsize:22}} />
+                </Badge>
+                </Link> :
                 <Link to="/signup" style={{ color: 'inherit', textDecoration: 'inherit'}}>
                     <SignIn>Join Us</SignIn>
                 </Link>}
                 </MenuItem>
-                <Link to="/cart">
                 <MenuItem>
+                <Link to="/cart">
                 <Badge badgeContent={quantity} color="primary">
                     <ShoppingCartIcon color="action" style={{fontsize:22}} />
                 </Badge>
-                </MenuItem>
                 </Link>
+                </MenuItem>
             </Right>
         </Wrapper>
     </Container>
