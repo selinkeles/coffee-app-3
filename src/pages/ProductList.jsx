@@ -78,10 +78,7 @@ const ProductList = () => {
         getCategories();
     },[]);
 
-  
 
-
-  
     const subCategories = [['Coffee','Filter Coffee','Espresso','Nespresso'],['Equipments','Flask','Coffee Press','Cup']]
     return (
         <Container>

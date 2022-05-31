@@ -1,6 +1,8 @@
 import { loginFailure, loginStart, loginSuccess, setCart } from "./userRedux";
 import { initialize, addProduct } from "./cartRedux";
 import {addOrder} from "./orderRedux";
+import {addProduct2} from "./wishlistRedux";
+import {addNotification, initialize3} from "./notificationRedux";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -27,6 +29,20 @@ export const login = async (dispatch, user) => {
       {
         dispatch(addOrder(res2.data[i]));
         console.log(res2.data[i]);
+      }
+      const res3 = await axios.get(`http://localhost:8090/wishlist/getUsersWishlistProducts/${res.data.id}`);
+      for (var i=0; i < res3.data.length; i++)
+      {
+        dispatch(addProduct2(res3.data[i]));
+        console.log(res3.data[i]);
+      }
+      const res4 = await axios.get(`http://localhost:8090/notification/getUsersNotifications/${res.data.id}`);
+      console.log(res4.data);
+      dispatch(initialize3());
+      for (var i=0; i < res4.data.notificationList.length; i++)
+      {
+        dispatch(addNotification(res4.data.notificationList[i]));
+        console.log(res4.data.notificationList[i]);
       }
 
     }

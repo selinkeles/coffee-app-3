@@ -6,6 +6,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { addProduct } from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { IconButton } from 'rsuite';
+import makecomment from "../redux/cartRedux";
+import axios from "axios";
+
 
 
 const Info = styled.div`
@@ -75,10 +80,25 @@ const Icon = styled.div`
 const Product = ({item}) => {
   const dispatch = useDispatch();
   const quantity = 1;
-  const handleClick = () => {
+
+  const navigate = useHistory();
     
-    dispatch(addProduct({...item ,quantity}));
+
+  const getComments = async () => {
+     
+        const res = await axios.get(`http://localhost:8090/comment/getProductComments/${item.id}`);
+        console.log(item.id);
+        console.log(res.data);
+        let path = `/product/${item.id}`;
+        navigate.push(path);
+        for (var i = 0; i < res.data.length; i++)
+        {
+          dispatch(makecomment(res.data[i]));
+        }
+      
+      
   };
+
   return (
     <Container>
         <Circle/>
@@ -87,11 +107,9 @@ const Product = ({item}) => {
             {/* <Icon onClick = {handleClick}>
                 <ShoppingCartIcon/>
             </Icon> */}
-            <Icon>
-              <Link to={`/product/${item.id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+            <IconButton onClick = {getComments}>
                 <SearchIcon/>
-              </Link>  
-            </Icon>
+            </IconButton> 
             <Icon>
                 <FavoriteIcon/>
             </Icon>

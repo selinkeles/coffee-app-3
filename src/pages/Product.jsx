@@ -193,7 +193,7 @@ const Product = () => {
   const [query, setQuery] = useState("");
   const [value, setValue] = useState(1);
 
-  useEffect(() => {
+  //useEffect(() => {
     const getComments = async () => {
       try {
         const res = await axios.get(`http://localhost:8090/comment/getProductComments/${id}`);
@@ -203,9 +203,9 @@ const Product = () => {
       } catch(err) {
           console.log("comment işi yaş balım")
       }
-    }
-    getComments();
-  }, [id])
+    };
+   // getComments();
+  //}, [id])
 
   useEffect(() => {
     const getProduct = async () => {
@@ -245,7 +245,7 @@ const Product = () => {
 
   const handleClick = () => {
     if (product.stocks > 0 && !user) {
-      dispatch(addProduct({...product, quantity}));
+      dispatch(addProduct({"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}));
     } else if(product.stocks > 0 && user) {
       //dispatch(addProduct({...product, quantity}));
       try {

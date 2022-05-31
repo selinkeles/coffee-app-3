@@ -155,9 +155,10 @@ const Button = styled.button`
   font-weight: 600;
 `;
 
-const Wishlist = () => {
+const Notification = () => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist);
+  const notification = useSelector((state) => state.notification);
 
   const [stripeToken, setStripeToken] = useState(null);
   const user = useSelector((state) => state.user.currentUser);
@@ -167,69 +168,7 @@ const Wishlist = () => {
     setStripeToken(token);
   };
 
-  console.log(wishlist);
-
- 
-  const handleDelete2 = async (product) => {
-    try {
-      const res = await axios.get(`http://localhost:8090/wishlist/deleteFromWishlist/${user.id}/${product.productId}`);
-      console.log(product.id);  
-      dispatch(removeProduct2({...product}))
-      console.log("wl silindikten sonra")
-    } catch(err) {
-    console.log("wl silinmedi")
-    }
-  };
-  
-
-  const handleQuantity = (type,product) => {
-    if (type === "dec" && product.quantity >= 2) {
-      console.log(product.quantity)
-      (dispatch(decreaseQuantity2({...product})));
-    } else if (type === "inc" && ((product.quantity+1) <= product.stocks)) {
-      setQuantity(product.quantity + 1);
-      console.log(quantity)
-      (dispatch(increaseQuantity2({...product})));
-    }
-  };
-
-  // useEffect(() => {
-  //   const getUserCart = async () => {
-  //     try {
-  //       const res = await axios.post(`http://localhost:8090/carts/initializeUserCart/${user.id}`)
-  //       setUserCart(res.data);
-  //       console.log(userCart)
-  //     }
-  //     catch(err) { }
-  //   }
-  //   getUserCart();
-  // },[user])
-
-  // useEffect(() => {
-  //   const addProducttoUserCart = async () => {
-  //     try {
-  //       const res = await axios.post(`http://localhost:8090/cartsaddProductToCart/${user.id}` , {
-
-  //       })
-
-  //     } catch(err) {
-  //       console.log("carta eklenmedi")
-  //     }
-  //   }
-  // },[user,userCart])
-
-
-
-  const handleOrder = (cart) => {
-    dispatch(addOrder({...cart}));
-    dispatch(takeOrder());
-  };
-
-  // const handleQuantity = (product) => {
-  //   setQuantity(product.quantity);
-  // }
-
-  console.log(wishlist.products2);
+  console.log(notification);
 
   return (
     <Container>
@@ -237,7 +176,7 @@ const Wishlist = () => {
       <Navbar />
       <Categorybar/>
       <Wrapper>
-        <Title>YOUR WISHLIST <FavoriteBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} /></Title>
+        <Title>YOUR NOTIFICATIONS <FavoriteBorderIcon color="white" style={{fontsize:22, marginRight:"10px"}} /></Title>
         <Top>
           <Link to="/">
           <TopButton>CONTINUE SHOPPING</TopButton>
@@ -245,23 +184,19 @@ const Wishlist = () => {
         </Top>
         <Bottom>
           <Info>
-            {wishlist.products2.map(product=>(<Product>
+            {notification.notificationList.map(not=>(<Product>
               <ProductDetail>
-                <Image src={product.image} />
                 <Details>
-                  <ProductName>
-                    <b> <Link to={`/product/${product.id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>{product.name}</Link></b>
-                  </ProductName>
                   <ProductId>
-                    <b>ID:</b> {product.id}
+                    <b></b> {not}
                   </ProductId>
                 </Details>
               </ProductDetail>
               <PriceDetail>
                 <Icon >
-                  <DeleteIcon onClick= {() => handleDelete2(product)} fontSize="large" cursor="pointer"/>
+                  <DeleteIcon fontSize="large" cursor="pointer"/>
                 </Icon>
-                <ProductPrice>$ {product.price} <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
+                <ProductPrice> <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
                 </ProductPrice>
               </PriceDetail>
             </Product>
@@ -275,4 +210,4 @@ const Wishlist = () => {
   );
 };
 
-export default Wishlist;
+export default Notification;

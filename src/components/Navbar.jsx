@@ -14,6 +14,9 @@ import {initialize} from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import {initialize2} from "../redux/wishlistRedux";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import initialize3 from "../redux/notificationRedux";
 
 
 const Container = styled.div`
@@ -115,6 +118,8 @@ const MenuItem = styled.div`
 const Navbar= () =>{
     const quantity = useSelector(state=>state.cart.quantity);
     const quantity2 = useSelector(state=>state.wishlist.quantity2);
+    const quantity3 = useSelector(state=>state.notification.quantity3);
+
     const user = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
 
@@ -122,6 +127,8 @@ const Navbar= () =>{
         if(user){
             dispatch(logoutUser({...user}))
             dispatch(initialize());
+            dispatch(initialize2());
+            dispatch(initialize3())
         }
     }
 
@@ -171,10 +178,16 @@ const Navbar= () =>{
                 </Badge>
                 </MenuItem>
                 </Link>
+                <Link to="/notification">
+                <MenuItem>
+                <Badge badgeContent={quantity3} color="primary">
+                    <NotificationsIcon color="action" style={{fontsize:22}} />
+                </Badge>
+                </MenuItem>
+                </Link>
             </Right>
         </Wrapper>
     </Container>
   );
 };
-
 export default Navbar;
