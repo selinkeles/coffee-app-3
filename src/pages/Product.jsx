@@ -292,7 +292,7 @@ const Product = () => {
     } else if(user) {
       //dispatch(addProduct({...product, quantity}));
       try {
-        const res = axios.post(`http://localhost:8090/carts/addToWishlist/${user.id}/${product.id}`);
+        const res = axios.post(`http://localhost:8090/wishlist/addToWishlist/${user.id}/${product.id}`);
         console.log(product.id);
         dispatch(addProduct2({"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}));
         //setUserCart(res.data);

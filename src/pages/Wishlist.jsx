@@ -172,10 +172,8 @@ const Wishlist = () => {
  
   const handleDelete2 = async (product) => {
     try {
-      const res = await axios.post(`http://localhost:8090/wishlist/deleteFromWishlist/${user.id}/${product.id}`, {
-      "productId": product.id, "productName": product.name, "productImage": product.image, "price": product.price 
-      });
-      console.log(product.id);
+      const res = await axios.get(`http://localhost:8090/wishlist/deleteFromWishlist/${user.id}/${product.productId}`);
+      console.log(product.id);  
       dispatch(removeProduct2({...product}))
       console.log("wl silindikten sonra")
     } catch(err) {
