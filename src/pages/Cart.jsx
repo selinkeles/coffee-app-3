@@ -170,8 +170,9 @@ const Cart = () => {
 
   console.log(cart);
 
-  const handleDelete = (product) => {
-    dispatch(removeProduct({...product}))
+  const handleDelete = async (product) => {
+    const res = await axios.post(`http://localhost:8090/carts/deleteFromCart/${user.id}/${product.productId}`);
+    dispatch(removeProduct(product));
   }
 
   const handleQuantity = (type,product) => {

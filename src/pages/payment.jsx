@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {removeProduct, decreaseQuantity, increaseQuantity, takeOrder, addProduct} from "../redux/cartRedux";
 import { addOrder } from "../redux/orderRedux";
-import {initialize} from "../redux/cartRedux";
+import {initializeCart} from "../redux/cartRedux";
 import {createInvoice} from "../redux/invoiceRedux";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
@@ -125,7 +125,7 @@ const handleOrder = (cart) => {
                 console.log(res.data);
                 dispatch(addOrder(usercart));
                 dispatch(createInvoice(usercart));
-                dispatch(initialize());
+                dispatch(initializeCart());
                 const res1 = axios.post(`http://localhost:8090/carts/emptyCart/${user.id}`)
                // console.log("eklendikten sonra")
                 //console.log(userCart);

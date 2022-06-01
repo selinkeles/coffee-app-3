@@ -188,6 +188,7 @@ const Product = () => {
   const [comments, setComments] = useState([]);
   const [Errors, setErrors] = useState({});
   const user = useSelector((state) => state.user.currentUser);
+  const userwishlist = useSelector((state) => state.wishlist)
   const [userCart,setUserCart] = useState([]);
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
@@ -287,26 +288,31 @@ const Product = () => {
   }
 
   const handleClick2 = () => {
-    if (!user) {
-      dispatch(addProduct2({...product, quantity}));
-    } else if(user) {
-      //dispatch(addProduct({...product, quantity}));
-      try {
-        const res = axios.post(`http://localhost:8090/wishlist/addToWishlist/${user.id}/${product.id}`);
-        console.log(product.id);
-        dispatch(addProduct2({"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}));
-        //setUserCart(res.data);
-        console.log("wl eklendikten sonra")
-      } catch(err) {
-        console.log("wl eklenmedi")
-      }
-    }
-    else {
-      setErrors("error");
-      console.log("wl sıkıntı")
+    
+        var flag = 0;
+        if (user != null)
+        {       
+          for (var i = 0; i < userwishlist.quantity2; i++)
+          {
+            if (userwishlist.products2[i].productId == product.id)
+            {
+              flag = 1;
+            }
+          }
+          if (flag == 0)
+          {
+            const res = axios.post(`http://localhost:8090/wishlist/addToWishlist/${user.id}/${product.id}`);
+            console.log(product.id);
+            dispatch(addProduct2({"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}));
+          }
+          else{
+            console.log("güzel");
+          }
 
+        }
+      
     }
-  };
+  
 
   return (
     <Container>

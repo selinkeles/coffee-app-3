@@ -9,7 +9,7 @@ const cartSlice = createSlice({
         total: 0,
     },
     reducers:{
-        initialize:(state, action) => {
+        initializeCart:(state, action) => {
           state.products = [];
           state.quantity = 0;
           state.total = 0;
@@ -21,7 +21,8 @@ const cartSlice = createSlice({
               if (action.payload.productId === state.products[i].productId)
               {
                 state.products[i].quantity++;
-                k = 0;              }
+                k = 0;              
+                }
             }
             if (k == 1) {
               state.quantity += 1;
@@ -30,12 +31,21 @@ const cartSlice = createSlice({
             }
         },
         removeProduct:(state,action) => {
-            state.quantity -= 1;
-            console.log(action.payload)
+            console.log(state.products);
             state.total -= action.payload.price * action.payload.quantity;
-            state.products.pop(action.payload);
-            
-            console.log(action.payload.price)
+            console.log(state.products.indexOf(action.payload));
+            var ind = 0;
+            for (var i = 0; i < state.quantity; i++)
+            {
+                if (state.products.productId == action.payload.productId)
+                {
+                    ind = i;
+                    break;
+                }
+            }
+            console.log(i);
+            state.products.splice(ind, 1);
+            state.quantity -= 1;
         },
         makecomment:(state,action) => {
             state.comments.push(action.payload);
@@ -58,5 +68,5 @@ const cartSlice = createSlice({
     },
 });
 
-export const {initialize, addProduct , removeProduct, decreaseQuantity, increaseQuantity, takeOrder, makecomment} = cartSlice.actions;
+export const {initializeCart, addProduct , removeProduct, decreaseQuantity, increaseQuantity, takeOrder, makecomment} = cartSlice.actions;
 export default cartSlice.reducer;

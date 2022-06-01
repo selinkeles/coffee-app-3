@@ -247,13 +247,13 @@ const Wishlist = () => {
           <Info>
             {wishlist.products2.map(product=>(<Product>
               <ProductDetail>
-                <Image src={product.image} />
+                <Image src={product.productImage} />
                 <Details>
                   <ProductName>
-                    <b> <Link to={`/product/${product.id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>{product.name}</Link></b>
+                    <b> <Link to={`/product/${product.productId}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>{product.name}</Link></b>
                   </ProductName>
                   <ProductId>
-                    <b>ID:</b> {product.id}
+                    <b>ID:</b> {product.productId}
                   </ProductId>
                 </Details>
               </ProductDetail>

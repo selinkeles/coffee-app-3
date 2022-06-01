@@ -10,7 +10,7 @@ import img from "./logo.png";
 import { Link } from "react-router-dom";
 import {useSelector} from "react-redux";
 import { logoutUser } from "../redux/userRedux";
-import {initialize} from "../redux/cartRedux";
+import {initializeCart} from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -126,12 +126,11 @@ const Navbar= () =>{
     const handleClick = (user) => {
         if(user){
             dispatch(logoutUser({...user}))
-            dispatch(initialize());
+            dispatch(initializeCart());
             dispatch(initialize2());
             dispatch(initialize3())
         }
     }
-
 
   return (
     <Container>
