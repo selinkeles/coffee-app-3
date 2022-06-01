@@ -32,9 +32,9 @@ export const login = async (dispatch, user) => {
       }
       const res3 = await axios.get(`http://localhost:8090/wishlist/getUsersWishlistProducts/${res.data.id}`);
       for (var i=0; i < res3.data.length; i++)
-      {
-        dispatch(addProduct2(res3.data[i]));
-        console.log(res3.data[i]);
+      {//{"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}
+        dispatch(addProduct2({"productId":res3.data[i].id, "productName":res3.data[i].name,
+        "productImage":res3.data[i].image, "price":res3.data[i].price}));
       }
       const res4 = await axios.get(`http://localhost:8090/notification/getUsersNotifications/${res.data.id}`);
       console.log(res4.data);
