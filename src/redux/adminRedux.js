@@ -3,16 +3,16 @@ import {createSlice} from "@reduxjs/toolkit";
 const adminSlice = createSlice({
     name: "admin",
     initialState:{
-        deliveries:[],
+        deliveries: null,
         invoices:[],
 
     },
     reducers:{
         initializedelivery:(state, action) => {
-          state.deliveries = [];
+          state.deliveries = null;
         },
         addDeliveries:(state,action) => {
-            state.deliveries.push(payload.action);
+            state.deliveries = (action.payload);
         }
     }
     },

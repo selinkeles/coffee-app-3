@@ -159,8 +159,8 @@ const Button = styled.button`
 
 const Orders = () => {
   const order = useSelector((state) => state.order);
-  const cartRe = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user.currentUser);
+  const deliveryRedux = useSelector((state) => state.admin);
   const [returnOrder, setReturnOrder] = useState([]);
   const [date, setDate] = useState();
   const dispatch = useDispatch();
@@ -185,6 +185,8 @@ const Orders = () => {
       console.log(res.data);
   };
 
+  console.log(deliveryRedux.deliveries[0]);
+
     return (
         <Container>
             <Announcement/>
@@ -192,9 +194,9 @@ const Orders = () => {
             <Categorybar/>
             <Wrapper>
                 <Title>DELIVERY LIST</Title>
-                {order.orders.map(cart=>(<OrderWrapper>
+                {deliveryRedux.deliveries[0].map(deliverItem=>(<OrderWrapper>
                   <Info>
-                    {cart.productList.map(product=>(<Product>
+                    {deliverItem.productList.map(product=>(<Product>
                         <ProductDetail>
                             <Image src={product.productImage}/>
                             <Details>
@@ -202,12 +204,15 @@ const Orders = () => {
                                 <b>Product:</b> {product.productName}
                                 </ProductName>
                                 <ProductId>
-                                <b>ID:</b> {product.productId}
+                                <b>Product ID:</b> {product.productID}
+                                </ProductId>
+                                <ProductId>
+                                <b>Order ID:</b> {deliverItem.id}
                                 </ProductId>
                             </Details>
                         </ProductDetail>
                         <PriceDetail>
-                          <DateStyle > <b>Date:</b> {cart.orderDate}
+                          <DateStyle > <b>Date:</b> {}
                           </DateStyle>
                           <ProductAmountContainer>
                             <ProductAmount>Product Amount: {product.quantity} </ProductAmount>
@@ -216,13 +221,11 @@ const Orders = () => {
                           </ProductPrice>
                         </PriceDetail>
                         <OrderStatus>
-                          Order Status: Processing
+                          Order Status: {deliverItem.orderStatus}
                           <Icon>
                             <RestartAltIcon fontSize='large'/>
                           </Icon>
-                          <Invoice>
-                            <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
-                          </Invoice>
+                        
                         </OrderStatus>
                     </Product>))}
                   </Info>

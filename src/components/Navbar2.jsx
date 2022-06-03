@@ -140,11 +140,6 @@ const Navbar2= () =>{
     navigate.push(path);
     dispatch(initializedelivery());
     dispatch(addDeliveries(res.data));
-    /*for (var i = 0; i < res.data.length; i++)
-    {
-      dispatch(makecomment(res.data[i]));
-    }*/
-    console.log(res.data);
 }
 
   return (
