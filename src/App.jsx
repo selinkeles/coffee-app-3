@@ -8,7 +8,9 @@ import Orders from "./pages/Orders";
 import Invoice from "./pages/invoice";
 import Payment from "./pages/payment";
 import Wishlist from "./pages/Wishlist";
+import Delivery from "./pages/Delivery";
 import Notification from "./pages/Notification";
+import Admin from "./pages/Admin";
 import { useSelector } from "react-redux";
 
 import {
@@ -53,6 +55,13 @@ const App = () => {
         <Route path="/notification">
           <Notification />
         </Route>
+        <Route path="/admin">
+          <Admin />
+        </Route>
+        <Route path="/delivery">
+          <Delivery />
+        </Route>
+
         <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
         <Route path="/signup">
           {user ? <Redirect to="/" /> : <SignUp />}

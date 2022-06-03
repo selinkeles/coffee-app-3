@@ -74,7 +74,7 @@ const Sentence = styled.div`
 `;
 
 const Register = () => {
-  const initialValues = { name: "", surname: "", username: "", email: "", password: "", confirmpassword: ""};
+  const initialValues = { name: "", surname: "", username: "", email: "", password: "", confirmpassword: "",adress:""};
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -103,9 +103,10 @@ const Register = () => {
       console.log(formValues.email);
     try {
       const res = await axios.post(`http://localhost:8090/user/registerUser`, 
-      {"email": formValues.email, "password": formValues.password});
+      {"email": formValues.email, "password": formValues.password, "name": formValues.name, "surname":formValues.surname,
+        "address":formValues.adress});
       console.log(res.data.password);
-      if(formValues.email==="" || formValues.password==="" ||formValues.name==="" ||formValues.surname==="" ||formValues.confirmpassword==="" ||formValues.username===""){
+      if(formValues.email==="" || formValues.password==="" ||formValues.name==="" ||formValues.surname==="" ||formValues.confirmpassword==="" ||formValues.username===""||formValues.adress===""){
         console.log("null");
         setErrors("Something went wrong!");
       } else {
@@ -143,6 +144,9 @@ const Register = () => {
       }
       if(!values.email) {
         errors.email = "Email is required!"
+      }
+      if(!values.adress) {
+        errors.adress = "Email is required!"
       }
       else if (!regex.test(values.email)) {
         errors.email = "This is not a valid email format!"
@@ -186,6 +190,10 @@ const Register = () => {
             <LittleWrapper>
             <Input placeholder="Confirm Password" name="confirmpassword" value={formValues.confirmpassword} onChange={handleChange}/>
             <p>{formErrors.confirmpassword}</p>
+            </LittleWrapper>
+            <LittleWrapper>
+            <Input placeholder="Adress" name="adress" value={formValues.adress} onChange={handleChange}/>
+            <p>{formErrors.adress}</p>
             </LittleWrapper>
             
             

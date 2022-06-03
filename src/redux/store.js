@@ -5,6 +5,7 @@ import orderReducer from "./orderRedux";
 import invoiceReducer from "./invoiceRedux";
 import wishlistReducer from "./wishlistRedux";
 import NotificationReducer from "./notificationRedux";
+import AdminReducer from "./adminRedux";
 
 import {
     persistStore,
@@ -25,7 +26,7 @@ import {
   };
 
 const rootReducer = combineReducers({ user: userReducer, cart: cartReducer, order:orderReducer, invoice:invoiceReducer,
-                wishlist:wishlistReducer, notification:NotificationReducer });
+                wishlist:wishlistReducer, notification:NotificationReducer, admin:AdminReducer });
 
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
