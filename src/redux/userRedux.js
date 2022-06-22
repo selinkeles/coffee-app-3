@@ -7,13 +7,24 @@ const userSlice = createSlice({
     isFetching: false,
     error: false,
     cart: null,
-    //cartid: null
+    admin: false
   },
   reducers: {
+    initializeUser: (state) => {
+      state.currentUser = null;
+      state.error = false;
+      state.cart = null;
+      state.admin = false;
+    },
     loginStart: (state) => {
       state.isFetching = true;
     },
-    loginSuccess: (state, action) => {
+    loginSuccessAdmin: (state, action) => {
+      state.isFetching = false;
+      state.currentUser = action.payload;
+      state.admin = true;
+    },
+    loginSuccessUser: (state, action) => {
       state.isFetching = false;
       state.currentUser = action.payload;
     },
@@ -23,6 +34,9 @@ const userSlice = createSlice({
     },
     logoutUser: (state,action) => {
       state.currentUser = null;
+      state.error = false;
+      state.cart = null;
+      state.admin = false;
     },
     setCart: (state, action) => {
       state.cart = action.payload;
@@ -30,5 +44,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logoutUser, setCart} = userSlice.actions;
+export const { initializeUser, loginStart, loginSuccessAdmin, loginSuccessUser, loginFailure, logoutUser, setCart} = userSlice.actions;
 export default userSlice.reducer;

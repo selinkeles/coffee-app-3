@@ -1,22 +1,33 @@
-import { loginFailure, loginStart, loginSuccess, setCart } from "./userRedux";
+import { initializeUser, loginFailure, loginStart, loginSuccessUser, loginSuccessAdmin, setCart } from "./userRedux";
 import { initializeCart, addProduct } from "./cartRedux";
 import {initializeOrder, addOrder} from "./orderRedux";
 import {addProduct2} from "./wishlistRedux";
 import {addNotification, initialize3} from "./notificationRedux";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
+import { initializeUseSelector } from "react-redux/es/hooks/useSelector";
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
   console.log(user.email)
   console.log(user.password)
-  try {
-    const res = await axios.post(`http://localhost:8090/user/loginUser/`,
+  const res = await axios.post(`http://localhost:8090/user/loginUser/`,
       {"email": user.email, "password": user.password});//.then(res => console.log(res)).catch(err=> console.log(err));
-    if(res.data.password===null){
-      dispatch(loginFailure());
-    } else {
-      dispatch(loginSuccess(res.data));
+  dispatch(initializeUser());
+  if(res.data.password===null)
+  {
+    dispatch(loginFailure());
+  } 
+  else 
+  {
+      if (res.data.sales == true)
+      {
+
+        dispatch(loginSuccessAdmin(res.data));
+      }
+      else
+      {
+      dispatch(loginSuccessUser(res.data));
       const res1 = await axios.get(`http://localhost:8090/carts/getUserCart/${res.data.id}`);
       dispatch(initializeCart());
       dispatch(setCart(res1.data));
@@ -45,12 +56,9 @@ export const login = async (dispatch, user) => {
         dispatch(addNotification(res4.data.notificationList[i]));
         console.log(res4.data.notificationList[i]);
       }
-
     }
-  } catch (err) {
-    dispatch(loginFailure());
-    console.log("cannot cathc")
-  }
+    
+  } 
 
 };
 

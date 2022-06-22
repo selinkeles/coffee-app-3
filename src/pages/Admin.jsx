@@ -6,9 +6,14 @@ import Products from '../components/Products'
 import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 import Announcement from '../components/Announcement'
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 
 const Admin = () => {
+  const Curuser = useSelector((state) => state.user);
+  console.log(Curuser.admin);
+
   return (
     <div>
         <Announcement/>      

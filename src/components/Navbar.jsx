@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import {useSelector} from "react-redux";
 import { logoutUser } from "../redux/userRedux";
 import {initializeCart} from "../redux/cartRedux";
+import {initializeUser} from "../redux/userRedux";
 import {useDispatch} from "react-redux";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -126,6 +127,7 @@ const Navbar= () =>{
     const handleClick = (user) => {
         if(user){
             dispatch(logoutUser({...user}))
+            dispatch(initializeUser());
             dispatch(initializeCart());
             dispatch(initialize2());
             dispatch(initialize3())

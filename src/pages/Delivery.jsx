@@ -137,7 +137,6 @@ const Icon = styled.div`
 
 const Invoice = styled.div`
 margin-top: 25px;
-
 `
 
 const Button = styled.button`
@@ -160,7 +159,8 @@ const Button = styled.button`
 const Orders = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user.currentUser);
-  const deliveryRedux = useSelector((state) => state.admin);
+  //const deliveryRedux = useSelector((state) => state.admin);
+  const cartRe = useSelector((state) => state.cart)
   const [returnOrder, setReturnOrder] = useState([]);
   const [date, setDate] = useState();
   const dispatch = useDispatch();
@@ -185,7 +185,7 @@ const Orders = () => {
       console.log(res.data);
   };
 
-  console.log(deliveryRedux.deliveries[0]);
+  //console.log(deliveryRedux.deliveries[0]);
 
     return (
         <Container>
@@ -194,9 +194,9 @@ const Orders = () => {
             <Categorybar/>
             <Wrapper>
                 <Title>DELIVERY LIST</Title>
-                {deliveryRedux.deliveries[0].map(deliverItem=>(<OrderWrapper>
+                {order.orders.map(cart=>(<OrderWrapper>
                   <Info>
-                    {deliverItem.productList.map(product=>(<Product>
+                    {cart.productList.map(product=>(<Product>
                         <ProductDetail>
                             <Image src={product.productImage}/>
                             <Details>
@@ -207,7 +207,7 @@ const Orders = () => {
                                 <b>Product ID:</b> {product.productID}
                                 </ProductId>
                                 <ProductId>
-                                <b>Order ID:</b> {deliverItem.id}
+                                <b>Order ID:</b> {cart.id}
                                 </ProductId>
                             </Details>
                         </ProductDetail>
@@ -221,7 +221,7 @@ const Orders = () => {
                           </ProductPrice>
                         </PriceDetail>
                         <OrderStatus>
-                          Order Status: {deliverItem.orderStatus}
+                          Order Status: {cart.orderStatus}
                           <Icon>
                             <RestartAltIcon fontSize='large'/>
                           </Icon>

@@ -12,6 +12,7 @@ import Delivery from "./pages/Delivery";
 import Notification from "./pages/Notification";
 import Admin from "./pages/Admin";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import {
   BrowserRouter as Router,
@@ -23,13 +24,14 @@ import {
 
 
 const App = () => {
-  const user = useSelector((state) => state.user.currentUser);
+  const Curuser = useSelector((state) => state.user);
   const invoiceFlag = useSelector((state) => state.invoice.flag);
+  const navigate = useHistory();
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Home /> 
         </Route>
         <Route path="/products/:category">
           <ProductList />
@@ -61,10 +63,12 @@ const App = () => {
         <Route path="/delivery">
           <Delivery />
         </Route>
-
-        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+        <Route path="/login"> 
+          {(Curuser.currentUser&&!Curuser.admin) ? <Redirect to="/" /> : <Login />}
+          {(Curuser.currentUser&&Curuser.admin) ? <Redirect to="/admin" /> : <Login />} 
+          </Route>
         <Route path="/signup">
-          {user ? <Redirect to="/" /> : <SignUp />}
+          {Curuser.currentUser ? <Redirect to="/" /> : <SignUp />}
         </Route>
       </Switch>
     </Router>

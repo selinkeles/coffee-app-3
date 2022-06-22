@@ -136,6 +136,8 @@ const Navbar2= () =>{
 
     const handleDelivery = async () => {
     const res = await axios.get(`http://localhost:8090/order/viewAllOrders/`);
+    const deliverList = res.data;
+    console.log(deliverList);
     let path = `/delivery`;
     navigate.push(path);
     dispatch(initializedelivery());

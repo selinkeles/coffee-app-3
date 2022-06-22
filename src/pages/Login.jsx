@@ -72,7 +72,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state) => state.user);
+  const { isFetching, setIsfetching } = useSelector((state) => state.user);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -120,10 +120,10 @@ const Login = () => {
         <Form>
           <Input type="text" placeholder="email" onChange={(e) => setEmail(e.target.value)}/>
           <Input type="password" placeholder="password"   onChange={(e) => setPassword(e.target.value)}/>
-          <Button onClick={handleClick} disabled={isFetching}>
+          <Button onClick={handleClick} /*disabled={isFetching}*/>
           LOGIN
           </Button>
-          {error && <Error>Something went wrong...</Error>}
+          {setIsfetching && <Error>Something went wrong...</Error>}
           <Sentence>FORGOT PASSWORD?</Sentence>
           <Link to='/signup' style={{ color: 'inherit', textDecoration: 'inherit'}}>
             <Sentence>CREATE NEW ACCOUNT</Sentence>

@@ -181,6 +181,18 @@ const Orders = () => {
       navigate.push(path);
   };
 
+  const handleReturn = async (cart, product) => {
+    console.log(user);
+    console.log(product.productID);
+    console.log(cart.id);
+    const res = await axios.post(`http://localhost:8090/refund/createRefundRequest/${user.id}/${product.productID}/${cart.id}`);
+    console.log(res.data);
+    /*dispatch(initialize());
+    dispatch(loadInvoice(res.data));
+    let path = `/invoice`;
+    navigate.push(path);*/
+};
+
   const handleGetOrder = async () => {
       console.log(startDate);
       const res = await axios.post(`http://localhost:8090/order/listByDateRange`, {"from":startDate, "to":lastDate});
@@ -221,7 +233,7 @@ const Orders = () => {
                                 <b>Product:</b> {product.productName}
                                 </ProductName>
                                 <ProductId>
-                                <b>ID:</b> {product.productId}
+                                <b>ID:</b> {product.productID}
                                 </ProductId>
                             </Details>
                         </ProductDetail>
@@ -242,6 +254,7 @@ const Orders = () => {
                           <Invoice>
                             <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
                           </Invoice>
+                            <Button onClick={()=>handleReturn(cart, product)}>RETURN PRODUCT</Button>
                         </OrderStatus>
                     </Product>))}
                   </Info>
