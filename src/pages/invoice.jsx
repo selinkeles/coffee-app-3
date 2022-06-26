@@ -96,6 +96,7 @@ margin-right: 30px;
 const Invoice = () => {
     const user = useSelector((state) => state.user.currentUser);
     const invoice = useSelector((state) => state.invoice.showInvoice.invoiceProductList);
+    const invoiceInfo = useSelector((state) => state.invoice.showInvoice);
     const dispatch = useDispatch();
     // useEffect(() => {
     //     setNumber(number += 1);
@@ -113,8 +114,6 @@ const Invoice = () => {
                         <CoffeeMsg>
                         OUR LITTLE COFFEE.CO
                         </CoffeeMsg>
-                        Sabancı Unı.
-                        Orta Mah,      34956 Tuzla/Istanbul
                     </Left>
                     <Middle>
 
@@ -130,10 +129,10 @@ const Invoice = () => {
                             BILL TO
                         </BillTo>
                         <BillTo>
-                            {user.name} {user.surname}
+                            deniz atalay
                         </BillTo>
                         <BillTo>
-                            {user.address}
+                            {invoiceInfo.shipmentAddress}
                         </BillTo>
                     </Left>
                     <Middle>
@@ -141,10 +140,10 @@ const Invoice = () => {
                                 SHIP TO
                             </BillTo>
                             <BillTo>
-                                {user.name} {user.surname}
+                                deniz atalay
                             </BillTo>
                             <BillTo>
-                                {user.address}
+                                {invoiceInfo.shipmentAddress}
                             </BillTo>
                     </Middle>
                     <Right>
@@ -152,11 +151,9 @@ const Invoice = () => {
                             INVOICE NUMBER: 001
                         </BillTo>
                         <BillTo >
-                            INVOICE DATE: 09.05.2022
+                            INVOICE DATE: {invoiceInfo.day}/{invoiceInfo.month}/{invoiceInfo.year}
                         </BillTo>
-                        <BillTo >
-                            DUE DATE: 26.05.2022
-                        </BillTo>
+                        
                     </Right>
                 </Wrapper>
                 <Hr/>

@@ -45,6 +45,18 @@ const Desc = styled.p`
   margin: 20px 0px;
 `;
 
+const Desc1 = styled.p`
+  margin: 20px 0px;
+  color: #20a02f;
+  font-weight: 100;
+  font-size: 34px;`;
+const Desc2 = styled.p`
+  margin: 20px 0px;
+  color:  #a02020;
+  font-weight: 100;
+  font-size: 34px;
+`;
+
 const Price = styled.span`
   font-weight: 100;
   font-size: 40px;
@@ -168,8 +180,14 @@ const Button = styled.button`
 
 const success = styled.h1`
     font-size: 20px;
+    font-weight: 800;
+    color: #a02020;
+`;    
+
+const unsuccess = styled.h1`
+    font-size: 20px;
     font-weight: 200;
-    color: #20a020;
+    color: #20a062;
 `;    
 
 const error = styled.h1`
@@ -177,7 +195,8 @@ const error = styled.h1`
     font-weight: 200;
 
     color:  #a02020
-`;    
+`;
+
 
 const Product = () => {
 
@@ -251,10 +270,12 @@ const Product = () => {
       //dispatch(addProduct({...product, quantity}));
       try {
         const res = axios.post(`http://localhost:8090/carts/addProductToCart/${user.id}`, {
-        "productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price 
+        "productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity,
+         "price": product.price * (100-product.discountRate) * (1/100), "oldPrice": product.price
         });
         console.log(product.id);
-        dispatch(addProduct({"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}));
+        dispatch(addProduct({"productId": product.id, "productName": product.name, "productImage": product.image,
+         "quantity": quantity, "price": product.price * (100-product.discountRate) * (1/100), "oldPrice": product.price}));
         //setUserCart(res.data);
         console.log("eklendikten sonra")
         console.log(userCart);
@@ -303,7 +324,8 @@ const Product = () => {
           {
             const res = axios.post(`http://localhost:8090/wishlist/addToWishlist/${user.id}/${product.id}`);
             console.log(product.id);
-            dispatch(addProduct2({"productId": product.id, "productName": product.name, "productImage": product.image, "quantity": quantity, "price": product.price}));
+            dispatch(addProduct2({"productId": product.id, "productName": product.name, "productImage": product.image,
+             "quantity": quantity, "price": product.price * (100 - product.discountRate) * (1/100)}));
           }
           else{
             console.log("güzel");
@@ -325,12 +347,26 @@ const Product = () => {
         </ImgContainer>
         <InfoContainer>
           <Title>{product.name}</Title>
+          <Desc1>
+          {product.discountRate > 0 ? (
+                                    <success> SALE {product.discountRate}% OFF</success>
+                        ) : (
+                          <error></error>
+                        )}
+          </Desc1>
           <Desc>
           {product.description}
           </Desc>
-          <Price>$ {product.price}</Price>
+          <Desc2>
+          {product.discountRate > 0 ? (
+                          <s> Old price:  ${product.price} </s>
+                        ) : (
+                          <error></error>
+                        )}
+          </Desc2>
+          <Price>$ {product.price * (100-product.discountRate) * (1/100)}</Price>
           <Desc>
-          Rating: {product.rating} 
+          Rating: {product.rating} /5
           </Desc>
           <FilterTitle>           
                         {product.stocks > 0 ? (
@@ -386,7 +422,7 @@ const Product = () => {
           <Hr/>
           <input
               className="search"
-              placeholder="Search Products..."
+              placeholder="Add comment..."
               onChange={(e) => setQuery(e.target.value)} />
         {comments.map(item=>(
             <comment item={item} key={item.id}/>

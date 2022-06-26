@@ -6,6 +6,7 @@ const invoiceSlice = createSlice({
         invoices:[],
         showInvoice: null,
         flag:false
+        
     },
     reducers:{
         initialize:(state, action) => {

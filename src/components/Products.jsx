@@ -21,7 +21,6 @@ const Products = ({category,subCategory,sort,query}) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [sortedProducts, setSortedProducts] = useState([]);
 
-
   useEffect(() => {
     const getProducts = async ()=>{
       try{

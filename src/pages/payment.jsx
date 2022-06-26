@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {removeProduct, decreaseQuantity, increaseQuantity, takeOrder, addProduct} from "../redux/cartRedux";
-import { addOrder } from "../redux/orderRedux";
 import {initializeCart} from "../redux/cartRedux";
 import {createInvoice} from "../redux/invoiceRedux";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
+import { useHistory } from "react-router-dom";
+import { initializeOrder, addOrder } from "../redux/orderRedux";
 //const user = useSelector((state) => state.user.currentUser);
 
 const Container = styled.div`
@@ -111,6 +112,21 @@ const Payment = () => {
     }
   }, [formErrors]);
 
+  const navigate = useHistory();
+
+  const handleOrder = async () => {
+     
+    const res = await axios.get(`http://localhost:8090/order/retrieveOrders/${user.id}`);
+    dispatch(initializeOrder());
+      for (var i=0; i < res.data.length; i++)
+      {
+        dispatch(addOrder(res.data[i]));
+        console.log(res.data[i]);
+      }
+    let path = `/orders`;
+    navigate.push(path);
+  
+};
 
 /*
 const handleOrder = (cart) => {
@@ -118,20 +134,23 @@ const handleOrder = (cart) => {
   dispatch(takeOrder());
 };*/
     const handleClick = async () => {
-        try {
-            console.log(usercart);
+      
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = d.getMonth();
+      const day = d.getDay();
+      console.log(year);
+      console.log(month);
 
-            const res = await axios.post(`http://localhost:8090/carts/makeOrder/${usercart.id}`);
-                console.log(res.data);
+        const res = await axios.post(`http://localhost:8090/carts/makeOrder/${usercart.id}/${formValues.shippingAddress}/${year}/${month}/${day}`);
+            console.log(res.data);
                 dispatch(addOrder(usercart));
                 dispatch(createInvoice(usercart));
                 dispatch(initializeCart());
                 const res1 = axios.post(`http://localhost:8090/carts/emptyCart/${user.id}`)
                // console.log("eklendikten sonra")
                 //console.log(userCart);
-            } catch(err) {
-                console.log("order eklenmedi")
-            }
+            
 
     };
 
@@ -230,9 +249,9 @@ const handleOrder = (cart) => {
                       )}
                       </p>
         </Form>
-        <Link to="/orders" style={{ color: 'inherit', textDecoration: 'inherit'}}>
-            <Sentence>WOULD YOU LIKE TO SEE YOUR ORDER?</Sentence>
-          </Link>
+        
+            <Sentence onClick={handleOrder}>WOULD YOU LIKE TO SEE YOUR ORDER?</Sentence>
+          
       </Wrapper>
     </Container>
   );

@@ -107,9 +107,9 @@ const Product = ({item}) => {
             {/* <Icon onClick = {handleClick}>
                 <ShoppingCartIcon/>
             </Icon> */}
-            <IconButton onClick = {getComments}>
-                <SearchIcon/>
-            </IconButton> 
+                <Icon>
+                <SearchIcon onClick = {getComments} />
+                </Icon>
             <Icon>
                 <FavoriteIcon/>
             </Icon>

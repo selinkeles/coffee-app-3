@@ -15,9 +15,10 @@ import img from "./logo.png";
 import Orders from "../pages/Orders";
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeProduct, decreaseQuantity, increaseQuantity, takeOrder } from "../redux/cartRedux";
-import { addOrder } from "../redux/orderRedux";
+import { initializeOrder, addOrder } from "../redux/orderRedux";
 import {useDispatch} from "react-redux";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -115,6 +116,12 @@ const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
 `;
+const ProductPrice2 = styled.div`
+  font-size: 30px;
+  font-weight: 200;
+  color: #a02020;
+
+`;
 
 const Hr = styled.hr`
   background-color: #eee;
@@ -170,6 +177,8 @@ const Cart = () => {
 
   console.log(cart);
 
+  const navigate = useHistory();
+
   const handleDelete = async (product) => {
     const res = await axios.post(`http://localhost:8090/carts/deleteFromCart/${user.id}/${product.productId}`);
     dispatch(removeProduct(product));
@@ -185,6 +194,20 @@ const Cart = () => {
       (dispatch(increaseQuantity({...product})));
     }
   };
+
+  const getOrder = async () => {
+     
+    const res = await axios.get(`http://localhost:8090/order/retrieveOrders/${user.id}`);
+    dispatch(initializeOrder());
+      for (var i=0; i < res.data.length; i++)
+      {
+        dispatch(addOrder(res.data[i]));
+        console.log(res.data[i]);
+      }
+    let path = `/orders`;
+    navigate.push(path);
+  
+};
 
   // useEffect(() => {
   //   const getUserCart = async () => {
@@ -248,9 +271,9 @@ const Cart = () => {
           <TopButton>CONTINUE SHOPPING</TopButton>
           </Link>
           <TopTexts>
-            <Link to="/orders" style={{ color: 'inherit', textDecoration: 'inherit'}}>
-            <TopText>Your Orders</TopText>
-            </Link>
+           
+            <TopText onClick={getOrder}>Your Orders</TopText>
+            
           </TopTexts>
         </Top>
         <Bottom>
@@ -276,6 +299,8 @@ const Cart = () => {
                   <ProductAmount>{product.quantity}</ProductAmount>
                   {/* <Remove cursor='pointer' onClick={() => handleQuantity("dec",product)}/> */}
                 </ProductAmountContainer>
+                <ProductPrice2> <s>$ {product.oldPrice * product.quantity} </s><LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
+                </ProductPrice2>
                 <ProductPrice>$ {product.price * product.quantity} <LocalOfferIcon color="white" style={{fontsize:22, marginRight:"10px"}} />
                 </ProductPrice>
               </PriceDetail>
@@ -291,11 +316,11 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+              <SummaryItemPrice>$0</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemPrice>$0</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>

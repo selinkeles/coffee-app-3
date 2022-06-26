@@ -18,7 +18,9 @@ import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { IconButton } from 'rsuite';
-import { initializedelivery, addDeliveries } from "../redux/adminRedux";
+import { initializedelivery, addDeliveries, initializeInvoice, addInvoices } from "../redux/adminRedux";
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import CategoryIcon from '@mui/icons-material/Category';
 import axios from 'axios';
 const Container = styled.div`
     height: 98px;
@@ -111,9 +113,9 @@ const Right = styled.div`
 const MenuItem = styled.div`
     font-size: 18px;
     cursor: pointer;
-    //margin-left: 5px;
+    margin-left: 10px;
     font-weight: bold;
-    margin-right: 30px;
+    margin-right: 10px;
 `;
 
 const Navbar2= () =>{
@@ -138,17 +140,37 @@ const Navbar2= () =>{
     const res = await axios.get(`http://localhost:8090/order/viewAllOrders/`);
     const deliverList = res.data;
     console.log(deliverList);
+    dispatch(initializedelivery());
+    for (var i=0; i < res.data.length; i++)
+    {
+      dispatch(addDeliveries(res.data[i]));
+      console.log(res.data[i]);
+    }
     let path = `/delivery`;
     navigate.push(path);
-    dispatch(initializedelivery());
-    dispatch(addDeliveries(res.data));
+
+}
+
+        const handleInvoice = async () => {
+    const res = await axios.get(`http://localhost:8090/order/viewAllOrders/`);
+    const deliverList = res.data;
+    console.log(deliverList);
+    dispatch(initializeInvoice());
+    for (var i=0; i < res.data.length; i++)
+      {
+        dispatch(addInvoices(res.data[i]));
+        console.log(res.data[i]);
+      }
+    let path = `/invoiceadmin`;
+    navigate.push(path);
+    
 }
 
   return (
     <Container>
         <Wrapper>
             <Left>
-                <Language>EN</Language>
+                <Language>ADMIN</Language>
                 <SearchContainer>
                     <Input onChange={(e) => setSearch(e.target.value)}/>
                     <SearchIcon style={{color:"gray", fontSize:22}} /> 
@@ -158,7 +180,7 @@ const Navbar2= () =>{
                 <Title> OUR LITTLE COFFEE.CO              </Title>
             </Center>
             <Right>
-            <Link to="/">
+            <Link to="/admin">
             <Logo src={img}/>
             </Link>
                 <MenuItem>
@@ -171,13 +193,19 @@ const Navbar2= () =>{
                 </LoginContainer>
                 </Link>}
                 </MenuItem>
+                <Link to="/AddCategory" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                    <CategoryIcon color="action" style={{fontsize:22}} />
+                </Link>
                 <MenuItem>
-                <IconButton onClick={handleDelivery}>
-                    <DeliveryDiningIcon color="action" style={{fontsize:22}} />
-                </IconButton>
+                    <DeliveryDiningIcon onClick={handleDelivery} color="action" style={{fontsize:22}} />
                 </MenuItem>
                 <MenuItem>
-                    <ReceiptIcon color="action" style={{fontsize:22}} />
+                    <ReceiptIcon onClick={handleInvoice} color="action" style={{fontsize:22}} />
+                </MenuItem>
+                <MenuItem>
+                <Link to="/newproduct" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                    <AddBoxIcon color="action" style={{fontsize:22}} />
+                </Link>
                 </MenuItem>
             </Right>
         </Wrapper>

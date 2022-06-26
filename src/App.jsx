@@ -10,6 +10,9 @@ import Payment from "./pages/payment";
 import Wishlist from "./pages/Wishlist";
 import Delivery from "./pages/Delivery";
 import Notification from "./pages/Notification";
+import NewProduct from "./pages/NewProduct";
+import AddCategory from "./pages/AddCategory";
+import InvoiceAdmin from "./pages/InvoiceAdmin";
 import Admin from "./pages/Admin";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -60,7 +63,19 @@ const App = () => {
         <Route path="/admin">
           <Admin />
         </Route>
+        <Route path="/newproduct">
+          <NewProduct />
+        </Route>
+        <Route path="/addcategory">
+          <AddCategory/>
+        </Route>
         <Route path="/delivery">
+          <Delivery />
+        </Route>
+        <Route path="/invoiceadmin">
+          <InvoiceAdmin />
+        </Route>
+        <Route path="/revenue">
           <Delivery />
         </Route>
         <Route path="/login"> 

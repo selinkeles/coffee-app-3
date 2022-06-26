@@ -17,7 +17,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {initialize2} from "../redux/wishlistRedux";
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import initialize3 from "../redux/notificationRedux";
+import {initialize3, addNotification} from "../redux/notificationRedux";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import axios from 'axios';
 
 
 const Container = styled.div`
@@ -123,6 +125,7 @@ const Navbar= () =>{
 
     const user = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
+    const navigate = useHistory();
 
     const handleClick = (user) => {
         if(user){
@@ -134,11 +137,25 @@ const Navbar= () =>{
         }
     }
 
+    const handleNote = async () => {
+        const res = await axios.get(`http://localhost:8090/notification/getUsersNotifications/${user.id}`);
+        const deliverList = res.data;
+        console.log(deliverList);
+        dispatch(initialize3());
+        for (var i=0; i < res.data.notificationList.length; i++)
+        {
+          dispatch(addNotification(res.data.notificationList[i]));
+          console.log(res.data.notificationList[i]);
+        }
+    let path = `/notification`;
+    navigate.push(path);
+    }
+
   return (
     <Container>
         <Wrapper>
             <Left>
-                <Language>EN</Language>
+            {user ? (<Language>Wallet: ${user.wallet}</Language>) : (<Language></Language>)}
                 <SearchContainer>
                     <Input onChange={(e) => setSearch(e.target.value)}/>
                     <SearchIcon style={{color:"gray", fontSize:22}} /> 
@@ -179,13 +196,13 @@ const Navbar= () =>{
                 </Badge>
                 </MenuItem>
                 </Link>
-                <Link to="/notification">
+                
                 <MenuItem>
                 <Badge badgeContent={quantity3} color="primary">
-                    <NotificationsIcon color="action" style={{fontsize:22}} />
+                    <NotificationsIcon onClick={handleNote} color="action" style={{fontsize:22}} />
                 </Badge>
                 </MenuItem>
-                </Link>
+                
             </Right>
         </Wrapper>
     </Container>

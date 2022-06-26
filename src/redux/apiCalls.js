@@ -3,6 +3,7 @@ import { initializeCart, addProduct } from "./cartRedux";
 import {initializeOrder, addOrder} from "./orderRedux";
 import {addProduct2} from "./wishlistRedux";
 import {addNotification, initialize3} from "./notificationRedux";
+import {getCost, getRevenue, getItems } from "./adminRedux";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import { initializeUseSelector } from "react-redux/es/hooks/useSelector";
@@ -24,6 +25,15 @@ export const login = async (dispatch, user) => {
       {
 
         dispatch(loginSuccessAdmin(res.data));
+        const resCost = await axios.get(`http://localhost:8090/product/getCost/`);
+        console.log(resCost.data);
+        const resRev = await axios.get(`http://localhost:8090/product/getRevenue/`);
+        console.log(resRev.data)
+        const resItems = await axios.get(`http://localhost:8090/product/itemsSold/`);
+        console.log(resItems.data)
+        dispatch(getCost(resCost.data));
+        dispatch(getRevenue(resRev.data));
+        dispatch(getItems(resItems.data));
       }
       else
       {

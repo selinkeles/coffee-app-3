@@ -13,7 +13,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
-
+import { initializedelivery, addDeliveries, initializeInvoice, addInvoices } from "../redux/adminRedux";
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import {TextField} from "@mui/material";
@@ -69,10 +69,6 @@ const ProductName = styled.span``;
 
 const ProductId = styled.span``;
 
-const ProductId2 = styled.span``;
-
-const ProductId3 = styled.span``;
-
 
 
 const PriceDetail = styled.div`
@@ -116,6 +112,7 @@ const DateStyle = styled.div`
 font-weight: 300;
 font-size: 16px;
 margin: 5px;`
+  
 
 
 const OrderStatus = styled.div`
@@ -149,29 +146,50 @@ const Button = styled.button`
   border: 2px solid #d3d3d3;
   background-color: white;
   cursor: pointer;
+  margin-left: 550px;
+  margin-bottom: 30px;
+
+
   font-weight: 300;
   font-size: 14px;
   &:hover{
       background-color: #d4f1f9;
       border: 2px solid #d4f1f9;
   }
-`
+  `
+
+  const Buttona = styled.button`
+  padding: 15px;
+  border-radius: 13px;
+  border: 2px solid #d3d3d3;
+  background-color: white;
+  cursor: pointer;
+
+
+  font-weight: 300;
+  font-size: 14px;
+  &:hover{
+      background-color: #d4f1f9;
+      border: 2px solid #d4f1f9;
+  }
+  `
 
 //const current = new Date();
-//const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+//const date = ${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
 
-const Orders = () => {
+const InvoiceAdmin = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user.currentUser);
-  const deliveryRedux = useSelector((state) => state.admin);
+  //const deliveryRedux = useSelector((state) => state.admin);
   const cartRe = useSelector((state) => state.cart)
   const [returnOrder, setReturnOrder] = useState([]);
   const [date, setDate] = useState();
   const dispatch = useDispatch();
   const [startDate, setStartDate] = useState(new Date());
   const [lastDate, setLastDate] = useState(new Date());
+  const invoice = useSelector((state) => state.admin.invoices);
 
-    const navigate = useHistory();
+  const navigate = useHistory();
 
   const handleInvoice = async (cart) => {
       console.log(cart.id);
@@ -184,20 +202,57 @@ const Orders = () => {
   };
 
   const handleGetOrder = async () => {
-      console.log(startDate);
-      const res = await axios.post(`http://localhost:8090/order/listByDateRange`, {"from":startDate, "to":lastDate});
-      console.log(res.data);
-  };
+    
+    const startDay = startDate.getDate();
+    const startMonth = startDate.getMonth()+1;
+    const startYear = startDate.getFullYear();
+    const lastDay = lastDate.getDate();
+    const lastMonth = lastDate.getMonth()+1;
+    const lastYear = lastDate.getFullYear();
 
-  //console.log(deliveryRedux.deliveries[0]);
+    console.log(startDate);
+    console.log(startDay);
+    console.log(startMonth);
+    console.log(startYear);
+    console.log(lastDay);
+    console.log(lastMonth);
+    console.log(lastYear);
+
+    const res = await 
+    axios.post(`http://localhost:8090/order/listByDateRange/${startDay}/${startMonth}/${startYear}/${lastDay}/${lastMonth}/${lastYear}`); 
+    console.log(res.data)
+    dispatch(initializeInvoice());
+    for (var i=0; i < res.data.length; i++)
+    {
+      dispatch(addInvoices(res.data[i]));
+      console.log(res.data[i]);
+    }
+};
 
     return (
         <Container>
             <Announcement/>
             <Navbar2/>
             <Wrapper>
-                <Title>DELIVERY LIST</Title>
-                {deliveryRedux.deliveries.map(cart=>(<OrderWrapper>
+                <Title>INVOICE LIST</Title>
+                <DatePicker
+                    label="Basic example"
+                    selected = {startDate}
+                    onChange={(newDate) => {
+                        setStartDate(newDate)
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+                <DatePicker
+                    label="Basic example"
+                    selected = {lastDate}
+                    onChange={(newDate) => {
+                        setLastDate(newDate)
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+                <Buttona onClick={handleGetOrder}>Get Order</Buttona>
+                {invoice.map(cart=>(<OrderWrapper>
                   <Info>
                     {cart.productList.map(product=>(<Product>
                         <ProductDetail>
@@ -207,7 +262,7 @@ const Orders = () => {
                                 <b>Product:</b> {product.productName}
                                 </ProductName>
                                 <ProductId>
-                                <b>Address:</b> {cart.shipmentAddress}
+                                <b>Product ID:</b> {product.productID}
                                 </ProductId>
                                 <ProductId>
                                 <b>Order ID:</b> {cart.id}
@@ -231,21 +286,15 @@ const Orders = () => {
                         
                         </OrderStatus>
                     </Product>))}
+                    <Invoice>
+                        <Button onClick={()=>handleInvoice(cart)}>GET INVOICE</Button>
+                    </Invoice>
                   </Info>
                 </OrderWrapper>))}
-                <Wrapper>
-                Total Cost: ${deliveryRedux.cost}
-                </Wrapper>
-                <Wrapper>
-                Total Items Sold: {deliveryRedux.items}
-                </Wrapper>
-                <Wrapper>
-                Total Revenue: ${deliveryRedux.revenue}
-                </Wrapper>
             </Wrapper>
             <Footer/>
         </Container>
     );
 };
 
-export default Orders;
+export default InvoiceAdmin;

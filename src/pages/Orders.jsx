@@ -17,6 +17,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import {TextField} from "@mui/material";
+import { initializeOrder, addOrder } from '../redux/orderRedux';
 
 
 
@@ -169,7 +170,7 @@ const Orders = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [lastDate, setLastDate] = useState(new Date());
 
-    const navigate = useHistory();
+  const navigate = useHistory();
 
   const handleInvoice = async (cart) => {
       console.log(cart.id);
@@ -194,9 +195,25 @@ const Orders = () => {
 };
 
   const handleGetOrder = async () => {
-      console.log(startDate);
-      const res = await axios.post(`http://localhost:8090/order/listByDateRange`, {"from":startDate, "to":lastDate});
-      console.log(res.data);
+    
+      const startDay = startDate.getDay();
+      const startMonth = startDate.getMonth();
+      const startYear = startDate.getFullYear();
+      const lastDay = lastDate.getDay();
+      const lastMonth = lastDate.getMonth();
+      const lastYear = lastDate.getFullYear();
+
+      console.log(startYear);
+
+      const res = await 
+      axios.post(`http://localhost:8090/order/listByDateRange/${startDay}/${startMonth}/${startYear}/${lastDay}/${lastMonth}/${lastYear}`); 
+      console.log(res.data)
+      dispatch(initializeOrder());
+      for (var i=0; i < res.data.length; i++)
+      {
+        dispatch(addOrder(res.data[i]));
+        console.log(res.data[i]);
+      }
   };
 
     return (
@@ -222,7 +239,7 @@ const Orders = () => {
                     }}
                     renderInput={(params) => <TextField {...params} />}
                 />
-                <Button onClick={()=>handleGetOrder}>Get Order</Button>
+                <Button onClick={handleGetOrder}>Get Order</Button>
                 {order.orders.map(cart=>(<OrderWrapper>
                   <Info>
                     {cart.productList.map(product=>(<Product>
@@ -233,12 +250,12 @@ const Orders = () => {
                                 <b>Product:</b> {product.productName}
                                 </ProductName>
                                 <ProductId>
-                                <b>ID:</b> {product.productID}
+                                <b>Address:</b> {cart.shipmentAddress}
                                 </ProductId>
                             </Details>
                         </ProductDetail>
                         <PriceDetail>
-                          <DateStyle > <b>Date:</b> {cart.orderDate}
+                          <DateStyle > <b>Date:</b> {cart.day}/{cart.month}/{cart.year}
                           </DateStyle>
                           <ProductAmountContainer>
                             <ProductAmount>Product Amount: {product.quantity} </ProductAmount>
@@ -247,7 +264,7 @@ const Orders = () => {
                           </ProductPrice>
                         </PriceDetail>
                         <OrderStatus>
-                          Order Status: Processing
+                        <b>Status:</b> {product.processStatus}
                           <Icon>
                             <RestartAltIcon fontSize='large'/>
                           </Icon>
